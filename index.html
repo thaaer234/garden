@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" class="light">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>قاردن | القائمة الرقمية</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Almarai:wght@300;400;700;800&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+    
+    <!-- Core Stylesheets -->
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="animate-fade-in-up">
+    <!-- Intro Video Splash Screen Overlay -->
+    <div class="intro-splash" id="intro-splash">
+        <video id="intro-video-mobile" class="splash-video mobile-video" autoplay muted playsinline loop src="index.mp4"></video>
+        <video id="intro-video-desktop" class="splash-video desktop-video" autoplay muted playsinline loop src="index_desktop.mp4"></video>
+        <div class="splash-enter-hint">انقر للمتابعة إلى القائمة | Tap to Enter</div>
+    </div>
+
+    <!-- Top Navigation Bar -->
+    <header class="top-header">
+        <div class="header-right">
+            <button class="material-symbols-outlined icon-btn" id="translate-btn" title="تغيير اللغة">translate</button>
+            <div class="search-box">
+                <span class="material-symbols-outlined search-icon">search</span>
+                <input type="text" id="menu-search" class="search-input" placeholder="بحث...">
+            </div>
+        </div>
+        <div class="header-left">
+            <h1 class="brand-title" id="restaurant-name-title">GARDEN</h1>
+            <img src="" alt="Restaurant Logo" class="restaurant-logo" id="restaurant-logo-img">
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="menu-content">
+        <!-- Welcome Hero Section -->
+        <section class="welcome-hero">
+            <h2 class="welcome-title" id="welcome-header">أهلاً بك في قاردن</h2>
+            <p class="welcome-desc" id="welcome-desc-text">استمتع بتجربة طعام فاخرة وسط أجواء طبيعية خلابة.</p>
+        </section>
+
+        <!-- View 1: Categories Landing Grid -->
+        <section class="page-view active" id="categories-page-view">
+            <div class="categories-grid" id="categories-grid-container">
+                <!-- Dynamically populated categories cards via app.js -->
+            </div>
+        </section>
+
+        <!-- View 2: Category Products List (Inside category) -->
+        <section class="page-view" id="products-page-view">
+            <!-- Back navigation and Category Header -->
+            <div class="back-btn-row">
+                <button class="back-btn" id="back-to-categories-btn">
+                    <span class="material-symbols-outlined">arrow_forward</span>
+                    <span>رجوع للأقسام</span>
+                </button>
+                <h3 class="category-title-heading" id="current-category-title">-</h3>
+            </div>
+
+            <!-- Category Horizontal Slider for quick switching inside category view -->
+            <nav class="categories-nav no-scrollbar" id="categories-tabs-container">
+                <!-- Dynamically populated tabs via app.js -->
+            </nav>
+
+            <!-- Asymmetric Bento Grid of products under this category -->
+            <div class="products-grid" id="products-grid-container">
+                <!-- Dynamically populated products cards via app.js -->
+            </div>
+        </section>
+    </main>
+
+    <!-- Floating Info Action Button (FAB) -->
+    <button class="info-fab" id="open-info-btn">
+        <span class="material-symbols-outlined">info</span>
+    </button>
+
+    <!-- Bottom Navigation Bar (Mobile Viewports) -->
+    <nav class="mobile-bottom-nav" id="mobile-bottom-bar">
+        <!-- Dynamically populated tabs via app.js -->
+    </nav>
+
+    <!-- Modal 1: Restaurant Info Overlay -->
+    <div class="info-modal" id="info-dialog">
+        <div class="info-modal-card">
+            <div class="modal-header">
+                <h3 class="modal-title">معلومات المطعم</h3>
+                <button class="material-symbols-outlined icon-btn" id="close-info-btn">close</button>
+            </div>
+            <div class="modal-body">
+                <div class="info-row">
+                    <span class="material-symbols-outlined">schedule</span>
+                    <div class="info-row-text">
+                        <strong>ساعات العمل:</strong>
+                        <p>يومياً من 08:00 صباحاً حتى 12:00 منتصف الليل</p>
+                    </div>
+                </div>
+                <div class="info-row">
+                    <span class="material-symbols-outlined">pin_drop</span>
+                    <div class="info-row-text">
+                        <strong>الموقع:</strong>
+                        <p>شارع الغاردينيا، دمشق، سوريا</p>
+                    </div>
+                </div>
+                <div class="info-row">
+                    <span class="material-symbols-outlined">call</span>
+                    <div class="info-row-text">
+                        <strong>رقم الهاتف:</strong>
+                        <p>+963 11 223 4567</p>
+                    </div>
+                </div>
+            </div>
+            <button class="modal-close-btn" id="confirm-modal-btn">حسناً</button>
+        </div>
+    </div>
+
+    <!-- Modal 2: Product Detail Details Overlay -->
+    <div class="info-modal" id="product-details-dialog">
+        <div class="info-modal-card">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modal-product-title">تفاصيل المنتج</h3>
+                <button class="material-symbols-outlined icon-btn" id="close-product-details-btn">close</button>
+            </div>
+            <div class="modal-body" style="gap: var(--spacing-stack-lg);">
+                <div style="width: 100%; height: 200px; border-radius: var(--radius-md); overflow: hidden; background-color: var(--color-surface-container-low);">
+                    <img src="" id="modal-product-image" alt="Product" style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+                <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px dashed var(--color-outline-variant); padding-bottom: 12px;">
+                    <span style="font-size: 18px; font-weight: 700; color: var(--color-primary);" id="modal-product-name-heading">الاسم</span>
+                    <span style="font-size: 18px; font-weight: 700; color: var(--color-primary);" id="modal-product-price-heading">22 ر.س</span>
+                </div>
+                <div>
+                    <h4 style="font-size: 12px; font-weight: 700; color: var(--color-on-surface-variant); text-transform: uppercase; margin-bottom: 6px;">المكونات والتفاصيل</h4>
+                    <p style="font-size: 14px; color: var(--color-on-surface-variant); line-height: 1.6;" id="modal-product-description">المكونات وتفاصيل التحضير لهذا الطبق الخاص.</p>
+                </div>
+            </div>
+            <button class="modal-close-btn" id="close-product-details-btn-confirm">إغلاق</button>
+        </div>
+    </div>
+
+    <!-- Core Script Libraries -->
+    <!-- SheetJS (xlsx library) loaded from CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+    <!-- Custom Data Service Layer -->
+    <script src="services/dataService.js"></script>
+    <!-- Customer Menu Application Script -->
+    <script src="assets/js/app.js"></script>
+</body>
+</html>

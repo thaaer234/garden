@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إعدادات المتجر | أدمن قاردن</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Almarai:wght@300;400;700;800&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="../assets/css/admin.css">
+</head>
+<body>
+    <!-- Sidebar Component -->
+    <admin-sidebar></admin-sidebar>
+
+    <!-- Main Content Panel -->
+    <main class="admin-main">
+        <!-- Top App Header Component -->
+        <admin-header title="إعدادات المتجر" subtitle="تخصيص القائمة"></admin-header>
+
+        <!-- Dynamic Content Canvas -->
+        <div class="admin-content-canvas">
+            <header class="page-heading-row" style="flex-direction: row; align-items: center;">
+                <div class="page-heading-info">
+                    <h2>إعدادات المتجر</h2>
+                    <p>تخصيص الهوية البصرية، اسم المطعم، والألوان وتجربة العملاء</p>
+                </div>
+                <div style="display: flex; gap: 8px;">
+                    <button class="btn-secondary" id="admin-export-settings-btn" title="تصدير الإعدادات إلى Excel">
+                        <span class="material-symbols-outlined">download</span>
+                        <span>تصدير Excel</span>
+                    </button>
+                    <div class="excel-upload-zone" style="padding: 4px 16px; min-width: 120px; height: 44px;" title="استيراد الإعدادات من ملف Excel">
+                        <span class="material-symbols-outlined upload-icon" style="font-size: 20px; margin-bottom: 0;">upload_file</span>
+                        <span class="upload-text" style="font-size: 11px; margin-top: 2px;">استيراد Excel</span>
+                        <input type="file" id="admin-import-settings-file" accept=".xlsx, .xls">
+                    </div>
+                    <button class="btn-primary" id="save-settings-btn">
+                        <span>حفظ التغييرات</span>
+                    </button>
+                </div>
+            </header>
+
+            <!-- Bento Grid Layout -->
+            <div class="dashboard-layout-bento" style="grid-template-columns: 1fr; gap: var(--spacing-gutter);">
+                <!-- Left Side: Form Controls (Span 2 in grid if larger screen) -->
+                <div class="glass-card" style="grid-column: span 2;">
+                    <!-- Section: Basic Info -->
+                    <div style="margin-bottom: 32px;">
+                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 20px; border-bottom: 1px solid var(--color-outline-variant); padding-bottom: 12px;">
+                            <span class="material-symbols-outlined" style="color: var(--color-primary);">store</span>
+                            <h3 style="font-size: 16px; font-weight: 600;">المعلومات الأساسية</h3>
+                        </div>
+                        
+                        <!-- Restaurant Name -->
+                        <div class="form-group">
+                            <label class="form-label" for="settings-restaurant-name">اسم المطعم</label>
+                            <input type="text" id="settings-restaurant-name" class="form-input" placeholder="اسم المطعم المكتوب في الترويسة">
+                        </div>
+
+                        <!-- Logo URL Input & Local file selector -->
+                        <div class="form-group">
+                            <label class="form-label" for="settings-logo-url">رابط شعار المطعم (Logo URL)</label>
+                            <input type="url" id="settings-logo-url" class="form-input" placeholder="مثال: https://raw.githubusercontent.com/...">
+                            
+                            <div style="margin-top: 8px; display: flex; gap: 12px; align-items: center;">
+                                <span style="font-size: 11px; color: var(--color-on-surface-variant);">أو اختر صورة محلية للشعار:</span>
+                                <input type="file" id="settings-logo-local" accept="image/*" style="font-size: 11px;">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section: Theme Branding Colors -->
+                    <div>
+                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 20px; border-bottom: 1px solid var(--color-outline-variant); padding-bottom: 12px;">
+                            <span class="material-symbols-outlined" style="color: var(--color-primary);">palette</span>
+                            <h3 style="font-size: 16px; font-weight: 600;">ألوان الهوية والسمة</h3>
+                        </div>
+
+                        <!-- Dynamic Swatches -->
+                        <div class="color-swatches-grid">
+                            <!-- Swatch: Forest Green -->
+                            <div class="color-swatch-item">
+                                <div class="color-circle" style="background-color: #061b0e;" data-color="#061b0e"></div>
+                                <span class="swatch-label">أخضر الغابة</span>
+                            </div>
+                            <!-- Swatch: Olive Green -->
+                            <div class="color-swatch-item">
+                                <div class="color-circle" style="background-color: #4B5320;" data-color="#4B5320"></div>
+                                <span class="swatch-label">زيتوني</span>
+                            </div>
+                            <!-- Swatch: Wine Red -->
+                            <div class="color-swatch-item">
+                                <div class="color-circle" style="background-color: #5C0612;" data-color="#5C0612"></div>
+                                <span class="swatch-label">أحمر داكن</span>
+                            </div>
+                            <!-- Swatch: Custom Color Picker -->
+                            <div class="color-swatch-item">
+                                <div class="color-circle" style="background-color: #eeeeee; border: 4px dashed var(--color-outline-variant);" id="custom-color-circle">
+                                    <input type="color" id="settings-theme-color-picker" value="#061b0e">
+                                </div>
+                                <span class="swatch-label" id="custom-color-label">مخصص</span>
+                            </div>
+                        </div>
+
+                        <!-- Reset / Default notice -->
+                        <div class="info-notice-bar" style="background-color: rgba(208, 233, 212, 0.2); margin-top: 24px;">
+                            <span class="material-symbols-outlined">auto_awesome</span>
+                            <p>سيتم تطبيق اللون الرئيسي المختار على جميع أزرار وتصنيفات قائمة الطعام وقائمة الأدمن تلقائياً.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Side: Live Preview (Span 1 in bento grid) -->
+                <div class="glass-card simulator-preview-section">
+                    <div class="preview-title-bar">
+                        <span class="material-symbols-outlined">stay_primary_portrait</span>
+                        <span>معاينة حية لقائمة الزبائن</span>
+                    </div>
+                    <!-- Live preview phone device mockup -->
+                    <div class="preview-phone">
+                        <div class="phone-notch"></div>
+                        <!-- Loads the index.html inside an iframe -->
+                        <iframe src="../index.html" class="phone-content-iframe" id="settings-preview-iframe"></iframe>
+                    </div>
+                    <p class="preview-hint">سيتم تحديث شاشة الهاتف افتراضياً عند تغيير الإعدادات</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Mobile Bottom Tab Bar Component (Only Mobile) -->
+    <admin-mobile-nav></admin-mobile-nav>
+
+    <!-- Core Script Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+    <script src="../services/dataService.js"></script>
+    
+    <!-- Component script files -->
+    <script src="../components/admin-sidebar.js"></script>
+    <script src="../components/admin-header.js"></script>
+    <script src="../components/mobile-nav.js"></script>
+    
+    <!-- Admin Controller Script -->
+    <script src="../assets/js/admin.js"></script>
+</body>
+</html>

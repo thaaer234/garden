@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة التحكم | أدمن غاردن</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Almarai:wght@300;400;700;800&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="../assets/css/admin.css">
+</head>
+<body>
+    <!-- Sidebar Component (Desktop Viewports) -->
+    <admin-sidebar></admin-sidebar>
+
+    <!-- Main Content Panel -->
+    <main class="admin-main">
+        <!-- Top App Header Component -->
+        <admin-header title="لوحة التحكم" subtitle="نظرة عامة"></admin-header>
+
+        <!-- Dynamic Content Canvas -->
+        <div class="admin-content-canvas">
+            <!-- Stats Counters Row -->
+            <section class="stats-grid">
+                <!-- Card: Total Categories -->
+                <div class="stat-card">
+                    <div class="stat-icon-circle cat">
+                        <span class="material-symbols-outlined">category</span>
+                    </div>
+                    <span class="stat-label">إجمالي التصنيفات</span>
+                    <h3 class="stat-value" id="stat-total-categories">-</h3>
+                </div>
+
+                <!-- Card: Total Products -->
+                <div class="stat-card">
+                    <div class="stat-icon-circle prod">
+                        <span class="material-symbols-outlined">inventory_2</span>
+                    </div>
+                    <span class="stat-label">إجمالي المنتجات</span>
+                    <h3 class="stat-value" id="stat-total-products">-</h3>
+                </div>
+
+                <!-- Card: Available Products -->
+                <div class="stat-card">
+                    <div class="stat-icon-circle avail">
+                        <span class="material-symbols-outlined">visibility</span>
+                    </div>
+                    <span class="stat-label">المنتجات الظاهرة</span>
+                    <h3 class="stat-value" id="stat-available-products">-</h3>
+                </div>
+
+                <!-- Card: Hidden Products -->
+                <div class="stat-card">
+                    <div class="stat-icon-circle hidden">
+                        <span class="material-symbols-outlined">visibility_off</span>
+                    </div>
+                    <span class="stat-label">المنتجات المخفية</span>
+                    <h3 class="stat-value" id="stat-hidden-products" style="color: var(--color-error);">-</h3>
+                </div>
+            </section>
+
+            <!-- Bento Layout Section (Simulated Chart + Recent Activity Feed) -->
+            <section class="dashboard-layout-bento">
+                <!-- Bento Block: Chart (Wide) -->
+                <div class="glass-card">
+                    <div class="card-title-row">
+                        <h4>تفاعل القائمة</h4>
+                        <div class="pill-group">
+                            <button class="pill-btn">أسبوعي</button>
+                            <button class="pill-btn active">شهري</button>
+                        </div>
+                    </div>
+                    <!-- Mock Chart Bars -->
+                    <div class="simulated-chart">
+                        <div class="chart-axis-lines">
+                            <div class="axis-line"></div>
+                            <div class="axis-line"></div>
+                            <div class="axis-line"></div>
+                            <div class="axis-line"></div>
+                        </div>
+                        <div class="chart-bar" style="height: 60%;"></div>
+                        <div class="chart-bar" style="height: 85%;"></div>
+                        <div class="chart-bar highlight" style="height: 45%;"></div>
+                        <div class="chart-bar" style="height: 70%;"></div>
+                        <div class="chart-bar accent" style="height: 95%;"></div>
+                        <div class="chart-bar" style="height: 55%;"></div>
+                        <div class="chart-bar" style="height: 80%;"></div>
+                    </div>
+                    <div class="chart-x-labels">
+                        <span>أسبوع 1</span>
+                        <span>أسبوع 2</span>
+                        <span>أسبوع 3</span>
+                        <span>أسبوع 4</span>
+                    </div>
+                </div>
+
+                <!-- Bento Block: Activity logs (Narrow) -->
+                <div class="glass-card">
+                    <div class="card-title-row">
+                        <h4>آخر النشاطات</h4>
+                    </div>
+                    <div class="activity-feed">
+                        <div class="feed-item">
+                            <div class="feed-marker primary"></div>
+                            <div class="feed-details">
+                                <span class="feed-text">إضافة صنف جديد: <b>"سبانخ مطبوخة"</b></span>
+                                <span class="feed-time">منذ ساعتين</span>
+                            </div>
+                        </div>
+                        <div class="feed-item">
+                            <div class="feed-marker secondary"></div>
+                            <div class="feed-details">
+                                <span class="feed-text">تعديل سعر: <b>"قهوة جاردن"</b></span>
+                                <span class="feed-time">منذ 5 ساعات</span>
+                            </div>
+                        </div>
+                        <div class="feed-item">
+                            <div class="feed-marker error"></div>
+                            <div class="feed-details">
+                                <span class="feed-text">تم إخفاء صنف: <b>"كيكة العسل"</b></span>
+                                <span class="feed-time">أمس</span>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn-ghost-full" id="show-all-activities-btn">عرض جميع النشاطات</button>
+                </div>
+            </section>
+
+            <!-- Quick Actions Toolbar -->
+            <section class="quick-actions-section">
+                <h4>إجراءات سريعة</h4>
+                <div class="quick-actions-grid">
+                    <a href="products.html?action=new" class="quick-action-card primary">
+                        <span class="action-label">إضافة منتج جديد</span>
+                        <span class="material-symbols-outlined">add_circle</span>
+                    </a>
+                    <button id="quick-export-xlsx" class="quick-action-card secondary">
+                        <span class="action-label">تحميل تقارير الجرد (Excel)</span>
+                        <span class="material-symbols-outlined">download</span>
+                    </button>
+                    <a href="settings.html" class="quick-action-card neutral">
+                        <span class="action-label">تعديل معلومات المتجر</span>
+                        <span class="material-symbols-outlined">storefront</span>
+                    </a>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Mobile Bottom Tab Bar Component (Only Mobile) -->
+    <admin-mobile-nav></admin-mobile-nav>
+
+    <!-- Core Script Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+    <script src="../services/dataService.js"></script>
+    
+    <!-- Component script files -->
+    <script src="../components/admin-sidebar.js"></script>
+    <script src="../components/admin-header.js"></script>
+    <script src="../components/mobile-nav.js"></script>
+    
+    <!-- Admin Controller Script -->
+    <script src="../assets/js/admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+
+<html dir="rtl" lang="ar"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "error-container": "#ffdad6",
+                    "inverse-primary": "#b4cdb8",
+                    "on-primary": "#ffffff",
+                    "on-tertiary": "#ffffff",
+                    "secondary-fixed-dim": "#c3cc8c",
+                    "inverse-on-surface": "#f0f1f1",
+                    "primary-fixed": "#d0e9d4",
+                    "surface-container-high": "#e8e8e8",
+                    "on-tertiary-container": "#93947f",
+                    "inverse-surface": "#2f3131",
+                    "secondary-fixed": "#dfe8a6",
+                    "on-background": "#1a1c1c",
+                    "on-secondary-fixed": "#191e00",
+                    "on-error": "#ffffff",
+                    "surface-tint": "#4d6453",
+                    "secondary": "#5a632e",
+                    "on-tertiary-fixed-variant": "#474836",
+                    "outline-variant": "#c3c8c1",
+                    "on-surface-variant": "#434843",
+                    "on-surface": "#1a1c1c",
+                    "outline": "#737973",
+                    "on-secondary-container": "#5f6732",
+                    "surface-container-low": "#f3f3f4",
+                    "surface-bright": "#f9f9f9",
+                    "on-secondary-fixed-variant": "#434b18",
+                    "surface-variant": "#e2e2e2",
+                    "background": "#f9f9f9",
+                    "primary": "#061b0e",
+                    "surface": "#f9f9f9",
+                    "on-primary-fixed": "#0b2013",
+                    "tertiary-container": "#2b2d1d",
+                    "on-primary-container": "#819986",
+                    "secondary-container": "#dce5a3",
+                    "tertiary-fixed": "#e4e4cc",
+                    "tertiary": "#17180a",
+                    "surface-container-highest": "#e2e2e2",
+                    "primary-fixed-dim": "#b4cdb8",
+                    "on-primary-fixed-variant": "#364c3c",
+                    "tertiary-fixed-dim": "#c8c8b0",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-dim": "#dadada",
+                    "on-secondary": "#ffffff",
+                    "primary-container": "#1b3022",
+                    "on-tertiary-fixed": "#1b1d0e",
+                    "surface-container": "#eeeeee",
+                    "error": "#ba1a1a",
+                    "on-error-container": "#93000a"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "unit": "8px",
+                    "container-margin-mobile": "20px",
+                    "stack-md": "12px",
+                    "stack-sm": "4px",
+                    "gutter": "16px",
+                    "section-gap": "48px",
+                    "stack-lg": "24px",
+                    "container-margin-desktop": "80px"
+            },
+            "fontFamily": {
+                    "headline-lg": ["Montserrat"],
+                    "display-lg": ["Montserrat"],
+                    "price-tag": ["Montserrat"],
+                    "title-md": ["Montserrat"],
+                    "body-sm": ["Montserrat"],
+                    "label-caps": ["Montserrat"],
+                    "headline-lg-mobile": ["Montserrat"],
+                    "body-lg": ["Montserrat"]
+            },
+            "fontSize": {
+                    "headline-lg": ["32px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                    "display-lg": ["48px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "price-tag": ["18px", {"lineHeight": "1", "fontWeight": "600"}],
+                    "title-md": ["20px", {"lineHeight": "1.4", "fontWeight": "600"}],
+                    "body-sm": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                    "label-caps": ["12px", {"lineHeight": "1", "letterSpacing": "0.1em", "fontWeight": "700"}],
+                    "headline-lg-mobile": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                    "body-lg": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            line-height: 1;
+            text-transform: none;
+            letter-spacing: normal;
+            word-wrap: normal;
+            white-space: nowrap;
+            direction: ltr;
+        }
+        .drag-handle { cursor: grab; }
+        .drag-handle:active { cursor: grabbing; }
+        .category-row:hover .action-buttons { opacity: 1; }
+        .action-buttons { opacity: 0; transition: opacity 0.2s ease; }
+    </style>
+</head>
+<body class="bg-surface font-body-lg text-on-surface">
+<div class="flex min-h-screen">
+<!-- SideNavBar -->
+<aside class="hidden md:flex flex-col h-screen py-stack-lg fixed right-0 top-0 w-[280px] bg-primary dark:bg-tertiary-container shadow-sm z-50">
+<div class="px-6 mb-10">
+<h1 class="text-title-md font-title-md text-on-primary dark:text-on-tertiary-container">GARDEN Admin</h1>
+<p class="text-label-caps font-label-caps text-on-primary/70 dark:text-on-tertiary-container/70 mt-1">Management Portal</p>
+</div>
+<nav class="flex-1 space-y-2">
+<a class="flex items-center gap-4 py-3 px-6 text-on-primary/70 dark:text-on-tertiary-container/70 mx-2 my-1 hover:bg-on-primary-fixed-variant/20 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-label-caps text-label-caps">Dashboard</span>
+</a>
+<a class="flex items-center gap-4 py-3 px-6 bg-on-primary-container text-primary-fixed rounded-lg mx-2 my-1 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="category">category</span>
+<span class="font-label-caps text-label-caps">Category Management</span>
+</a>
+<a class="flex items-center gap-4 py-3 px-6 text-on-primary/70 dark:text-on-tertiary-container/70 mx-2 my-1 hover:bg-on-primary-fixed-variant/20 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+<span class="font-label-caps text-label-caps">Product Management</span>
+</a>
+<a class="flex items-center gap-4 py-3 px-6 text-on-primary/70 dark:text-on-tertiary-container/70 mx-2 my-1 hover:bg-on-primary-fixed-variant/20 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-label-caps text-label-caps">Settings</span>
+</a>
+</nav>
+<div class="mt-auto px-2">
+<div class="flex items-center gap-3 px-6 py-4 border-t border-on-primary/10 mb-4">
+<div class="w-10 h-10 rounded-full bg-on-primary-container/20 overflow-hidden">
+<img alt="Admin User Profile" class="w-full h-full object-cover" data-alt="A professional and clean portrait of a modern restaurant administrator wearing a dark tailored shirt. The background is a soft-focus upscale conservatory with green plants and warm ambient lighting. The aesthetic is sophisticated and high-end, matching the botanical luxury brand identity." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBP7SuqwXz9W3HVL-9zIu-MN9adpviM3G8oXqY_p-g6WWrvXRCq8G1C7kgtxMcuQUqhIEM2RrCfS0cbWPNoMMDp2CpSiI0a4dSLSL7tpCiNgeJYV0WpnLMpfu9UyVY6uiP5w2cBVQGITBbFJnRUM85dnwmXC_pBBf7snOIgV1xlmXkJ6VtW2twzcqzWbYrrdD9St52ym-0kzFpz8-L7aEsP5ghEjEzqbu572mGP9SR_zW50Lejs_7vY3vef0uExIDIq3PUGjEFMXJ2O"/>
+</div>
+<div class="flex flex-col">
+<span class="text-body-sm font-bold text-on-primary">أدمن جاردن</span>
+<span class="text-[10px] text-on-primary/50 uppercase tracking-widest">Administrator</span>
+</div>
+</div>
+<a class="flex items-center gap-4 py-3 px-6 text-on-primary/70 dark:text-on-tertiary-container/70 mx-2 my-1 hover:bg-on-primary-fixed-variant/20 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span class="font-label-caps text-label-caps">Logout</span>
+</a>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 md:mr-[280px] p-container-margin-mobile md:p-container-margin-desktop bg-surface min-h-screen">
+<!-- Header Section -->
+<header class="flex flex-col md:flex-row md:items-center justify-between mb-section-gap gap-stack-lg">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-primary">إدارة التصنيفات</h2>
+<p class="text-on-surface-variant font-body-lg">قم بتنظيم قائمة الطعام وترتيب الأقسام الرئيسية</p>
+</div>
+<button class="bg-primary text-on-primary px-stack-lg py-unit flex items-center justify-center gap-2 rounded-lg font-bold hover:scale-[0.98] transition-transform duration-200 shadow-sm">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+<span>إضافة تصنيف جديد</span>
+</button>
+</header>
+<!-- Table Container -->
+<div class="bg-surface-container-lowest rounded-xl shadow-[0_4px_20px_rgba(27,48,34,0.05)] border border-primary/5 overflow-hidden">
+<!-- Table Header -->
+<div class="grid grid-cols-[60px_80px_1fr_120px_120px_150px] gap-gutter px-stack-lg py-stack-md bg-surface-container-low border-b border-outline-variant/30 items-center">
+<div class="text-label-caps font-label-caps text-outline"></div>
+<div class="text-label-caps font-label-caps text-outline">أيقونة</div>
+<div class="text-label-caps font-label-caps text-outline">اسم التصنيف</div>
+<div class="text-label-caps font-label-caps text-outline text-center">الترتيب</div>
+<div class="text-label-caps font-label-caps text-outline text-center">الحالة</div>
+<div class="text-label-caps font-label-caps text-outline text-left">إجراءات</div>
+</div>
+<!-- Table Body -->
+<div class="divide-y divide-outline-variant/20">
+<!-- Category Item 1 -->
+<div class="category-row grid grid-cols-[60px_80px_1fr_120px_120px_150px] gap-gutter px-stack-lg py-4 items-center hover:bg-surface-container transition-colors">
+<div class="flex justify-center text-outline/40">
+<span class="material-symbols-outlined drag-handle" data-icon="drag_indicator">drag_indicator</span>
+</div>
+<div class="w-12 h-12 rounded-full bg-secondary-container flex items-center justify-center text-on-secondary-container">
+<span class="material-symbols-outlined" data-icon="coffee">coffee</span>
+</div>
+<div>
+<p class="font-title-md text-title-md text-primary">المشروبات الساخنة</p>
+<p class="text-body-sm text-on-surface-variant">12 منتج متوفر</p>
+</div>
+<div class="text-center font-price-tag text-price-tag text-on-surface-variant">#1</div>
+<div class="flex justify-center">
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-outline-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-secondary"></div>
+</label>
+</div>
+<div class="action-buttons flex items-center gap-2">
+<button class="p-2 text-on-surface-variant hover:bg-surface-variant/30 rounded-lg transition-colors">
+<span class="material-symbols-outlined" data-icon="edit">edit</span>
+</button>
+<button class="p-2 text-error hover:bg-error-container/30 rounded-lg transition-colors">
+<span class="material-symbols-outlined" data-icon="delete">delete</span>
+</button>
+</div>
+</div>
+<!-- Category Item 2 -->
+<div class="category-row grid grid-cols-[60px_80px_1fr_120px_120px_150px] gap-gutter px-stack-lg py-4 items-center hover:bg-surface-container transition-colors">
+<div class="flex justify-center text-outline/40">
+<span class="material-symbols-outlined drag-handle" data-icon="drag_indicator">drag_indicator</span>
+</div>
+<div class="w-12 h-12 rounded-full bg-secondary-container flex items-center justify-center text-on-secondary-container">
+<span class="material-symbols-outlined" data-icon="icecream">icecream</span>
+</div>
+<div>
+<p class="font-title-md text-title-md text-primary">المشروبات الباردة</p>
+<p class="text-body-sm text-on-surface-variant">8 منتجات متوفرة</p>
+</div>
+<div class="text-center font-price-tag text-price-tag text-on-surface-variant">#2</div>
+<div class="flex justify-center">
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-outline-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-secondary"></div>
+</label>
+</div>
+<div class="action-buttons flex items-center gap-2">
+<button class="p-2 text-on-surface-variant hover:bg-surface-variant/30 rounded-lg transition-colors">
+<span class="material-symbols-outlined" data-icon="edit">edit</span>
+</button>
+<button class="p-2 text-error hover:bg-error-container/30 rounded-lg transition-colors">
+<span class="material-symbols-outlined" data-icon="delete">delete</span>
+</button>
+</div>
+</div>
+<!-- Category Item 3 -->
+<div class="category-row grid grid-cols-[60px_80px_1fr_120px_120px_150px] gap-gutter px-stack-lg py-4 items-center hover:bg-surface-container transition-colors">
+<div class="flex justify-center text-outline/40">
+<span class="material-symbols-outlined drag-handle" data-icon="drag_indicator">drag_indicator</span>
+</div>
+<div class="w-12 h-12 rounded-full bg-secondary-container flex items-center justify-center text-on-secondary-container">
+<span class="material-symbols-outlined" data-icon="cake">cake</span>
+</div>
+<div>
+<p class="font-title-md text-title-md text-primary">الحلويات</p>
+<p class="text-body-sm text-on-surface-variant">15 منتج متوفر</p>
+</div>
+<div class="text-center font-price-tag text-price-tag text-on-surface-variant">#3</div>
+<div class="flex justify-center">
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-outline-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-secondary"></div>
+</label>
+</div>
+<div class="action-buttons flex items-center gap-2">
+<button class="p-2 text-on-surface-variant hover:bg-surface-variant/30 rounded-lg transition-colors">
+<span class="material-symbols-outlined" data-icon="edit">edit</span>
+</button>
+<button class="p-2 text-error hover:bg-error-container/30 rounded-lg transition-colors">
+<span class="material-symbols-outlined" data-icon="delete">delete</span>
+</button>
+</div>
+</div>
+<!-- Category Item 4 -->
+<div class="category-row grid grid-cols-[60px_80px_1fr_120px_120px_150px] gap-gutter px-stack-lg py-4 items-center hover:bg-surface-container transition-colors">
+<div class="flex justify-center text-outline/40">
+<span class="material-symbols-outlined drag-handle" data-icon="drag_indicator">drag_indicator</span>
+</div>
+<div class="w-12 h-12 rounded-full bg-secondary-container flex items-center justify-center text-on-secondary-container">
+<span class="material-symbols-outlined" data-icon="local_pizza">local_pizza</span>
+</div>
+<div>
+<p class="font-title-md text-title-md text-primary">المعجنات والبيتزا</p>
+<p class="text-body-sm text-on-surface-variant">20 منتج متوفر</p>
+</div>
+<div class="text-center font-price-tag text-price-tag text-on-surface-variant">#4</div>
+<div class="flex justify-center">
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-outline-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-secondary"></div>
+</label>
+</div>
+<div class="action-buttons flex items-center gap-2">
+<button class="p-2 text-on-surface-variant hover:bg-surface-variant/30 rounded-lg transition-colors">
+<span class="material-symbols-outlined" data-icon="edit">edit</span>
+</button>
+<button class="p-2 text-error hover:bg-error-container/30 rounded-lg transition-colors">
+<span class="material-symbols-outlined" data-icon="delete">delete</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Empty State Contextual Hint -->
+<div class="mt-stack-lg flex items-center gap-2 p-4 bg-primary-fixed/30 rounded-lg text-on-primary-fixed-variant">
+<span class="material-symbols-outlined text-[20px]" data-icon="info">info</span>
+<p class="text-body-sm italic">يمكنك سحب وإفلات التصنيفات لتغيير ترتيب ظهورها للعملاء في التطبيق.</p>
+</div>
+</main>
+</div>
+<!-- BottomNavBar (Hidden on Desktop) -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex flex-row-reverse justify-around items-center px-2 py-unit pb-safe md:hidden bg-surface-container-lowest dark:bg-surface-container-highest shadow-lg rounded-t-xl">
+<div class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant px-4 py-2 active:scale-95 transition-transform">
+<span class="material-symbols-outlined" data-icon="coffee">coffee</span>
+<span class="font-body-sm text-body-sm">Hot Drinks</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant px-4 py-2 active:scale-95 transition-transform">
+<span class="material-symbols-outlined" data-icon="icecream">icecream</span>
+<span class="font-body-sm text-body-sm">Cold Drinks</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant px-4 py-2 active:scale-95 transition-transform">
+<span class="material-symbols-outlined" data-icon="cake">cake</span>
+<span class="font-body-sm text-body-sm">Desserts</span>
+</div>
+<div class="flex flex-col items-center justify-center bg-secondary-container dark:bg-secondary text-on-secondary-container dark:text-on-secondary rounded-xl px-4 py-2 active:scale-95 transition-transform">
+<span class="material-symbols-outlined" data-icon="more_horiz">more_horiz</span>
+<span class="font-body-sm text-body-sm">More</span>
+</div>
+</nav>
+<script>
+        // Simple drag and drop visual simulation for demonstration
+        const rows = document.querySelectorAll('.category-row');
+        rows.forEach(row => {
+            row.addEventListener('dragstart', () => {
+                row.classList.add('opacity-50');
+            });
+            row.addEventListener('dragend', () => {
+                row.classList.remove('opacity-50');
+            });
+        });
+
+        // Toggle Switch Interactions
+        const switches = document.querySelectorAll('input[type="checkbox"]');
+        switches.forEach(sw => {
+            sw.addEventListener('change', function() {
+                const rowName = this.closest('.category-row').querySelector('.font-title-md').innerText;
+                console.log(`${rowName} visibility changed to ${this.checked}`);
+            });
+        });
+    </script>
+</body></html>

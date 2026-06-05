@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+
+<html dir="rtl" lang="ar"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            line-height: 1;
+            text-transform: none;
+            letter-spacing: normal;
+            word-wrap: normal;
+            white-space: nowrap;
+            direction: ltr;
+        }
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #f9f9f9;
+            color: #1a1c1c;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(27, 48, 34, 0.05);
+        }
+        .preview-phone {
+            width: 320px;
+            height: 640px;
+            border: 12px solid #1a1c1c;
+            border-radius: 40px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "error-container": "#ffdad6",
+                        "inverse-primary": "#b4cdb8",
+                        "on-primary": "#ffffff",
+                        "on-tertiary": "#ffffff",
+                        "secondary-fixed-dim": "#c3cc8c",
+                        "inverse-on-surface": "#f0f1f1",
+                        "primary-fixed": "#d0e9d4",
+                        "surface-container-high": "#e8e8e8",
+                        "on-tertiary-container": "#93947f",
+                        "inverse-surface": "#2f3131",
+                        "secondary-fixed": "#dfe8a6",
+                        "on-background": "#1a1c1c",
+                        "on-secondary-fixed": "#191e00",
+                        "on-error": "#ffffff",
+                        "surface-tint": "#4d6453",
+                        "secondary": "#5a632e",
+                        "on-tertiary-fixed-variant": "#474836",
+                        "outline-variant": "#c3c8c1",
+                        "on-surface-variant": "#434843",
+                        "on-surface": "#1a1c1c",
+                        "outline": "#737973",
+                        "on-secondary-container": "#5f6732",
+                        "surface-container-low": "#f3f3f4",
+                        "surface-bright": "#f9f9f9",
+                        "on-secondary-fixed-variant": "#434b18",
+                        "surface-variant": "#e2e2e2",
+                        "background": "#f9f9f9",
+                        "primary": "#061b0e",
+                        "surface": "#f9f9f9",
+                        "on-primary-fixed": "#0b2013",
+                        "tertiary-container": "#2b2d1d",
+                        "on-primary-container": "#819986",
+                        "secondary-container": "#dce5a3",
+                        "tertiary-fixed": "#e4e4cc",
+                        "tertiary": "#17180a",
+                        "surface-container-highest": "#e2e2e2",
+                        "primary-fixed-dim": "#b4cdb8",
+                        "on-primary-fixed-variant": "#364c3c",
+                        "tertiary-fixed-dim": "#c8c8b0",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-dim": "#dadada",
+                        "on-secondary": "#ffffff",
+                        "primary-container": "#1b3022",
+                        "on-tertiary-fixed": "#1b1d0e",
+                        "surface-container": "#eeeeee",
+                        "error": "#ba1a1a",
+                        "on-error-container": "#93000a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "unit": "8px",
+                        "container-margin-mobile": "20px",
+                        "stack-md": "12px",
+                        "stack-sm": "4px",
+                        "gutter": "16px",
+                        "section-gap": "48px",
+                        "stack-lg": "24px",
+                        "container-margin-desktop": "80px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Montserrat"],
+                        "display-lg": ["Montserrat"],
+                        "price-tag": ["Montserrat"],
+                        "title-md": ["Montserrat"],
+                        "body-sm": ["Montserrat"],
+                        "label-caps": ["Montserrat"],
+                        "headline-lg-mobile": ["Montserrat"],
+                        "body-lg": ["Montserrat"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["32px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                        "display-lg": ["48px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "price-tag": ["18px", {"lineHeight": "1", "fontWeight": "600"}],
+                        "title-md": ["20px", {"lineHeight": "1.4", "fontWeight": "600"}],
+                        "body-sm": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                        "label-caps": ["12px", {"lineHeight": "1", "letterSpacing": "0.1em", "fontWeight": "700"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                        "body-lg": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-surface dark:bg-background overflow-x-hidden">
+<!-- SideNavBar (Authority: JSON) -->
+<aside class="hidden md:flex flex-col h-screen py-stack-lg fixed right-0 top-0 w-[280px] bg-primary dark:bg-tertiary-container shadow-sm z-50">
+<div class="px-6 mb-10">
+<h1 class="text-title-md font-title-md text-on-primary dark:text-on-tertiary-container mb-1">GARDEN Admin</h1>
+<p class="text-on-primary/70 dark:text-on-tertiary-container/70 text-body-sm font-body-sm">Management Portal</p>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center px-6 py-3 text-on-primary/70 dark:text-on-tertiary-container/70 mx-2 my-1 font-label-caps text-label-caps transition-colors duration-200 hover:bg-on-primary-fixed-variant/20" href="#">
+<span class="material-symbols-outlined ml-3" data-icon="dashboard">dashboard</span>
+<span>Dashboard</span>
+</a>
+<a class="flex items-center px-6 py-3 text-on-primary/70 dark:text-on-tertiary-container/70 mx-2 my-1 font-label-caps text-label-caps transition-colors duration-200 hover:bg-on-primary-fixed-variant/20" href="#">
+<span class="material-symbols-outlined ml-3" data-icon="category">category</span>
+<span>Category Management</span>
+</a>
+<a class="flex items-center px-6 py-3 text-on-primary/70 dark:text-on-tertiary-container/70 mx-2 my-1 font-label-caps text-label-caps transition-colors duration-200 hover:bg-on-primary-fixed-variant/20" href="#">
+<span class="material-symbols-outlined ml-3" data-icon="inventory_2">inventory_2</span>
+<span>Product Management</span>
+</a>
+<a class="flex items-center px-6 py-3 bg-on-primary-container text-primary-fixed rounded-lg mx-2 my-1 font-label-caps text-label-caps transition-colors duration-200" href="#">
+<span class="material-symbols-outlined ml-3" data-icon="settings">settings</span>
+<span>Settings</span>
+</a>
+</nav>
+<div class="mt-auto border-t border-on-primary/10 pt-4">
+<a class="flex items-center px-6 py-3 text-on-primary/70 dark:text-on-tertiary-container/70 mx-2 my-1 font-label-caps text-label-caps transition-colors duration-200 hover:bg-on-primary-fixed-variant/20" href="#">
+<span class="material-symbols-outlined ml-3" data-icon="logout">logout</span>
+<span>Logout</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="md:mr-[280px] min-h-screen px-container-margin-mobile md:px-container-margin-desktop py-stack-lg">
+<!-- Header -->
+<header class="flex flex-col md:flex-row justify-between items-start md:items-center mb-section-gap gap-stack-md">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-primary mb-2">إعدادات المتجر</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant">تخصيص الهوية البصرية وتجربة العملاء</p>
+</div>
+<button class="bg-primary text-on-primary px-10 py-3 rounded-full font-title-md hover:scale-95 duration-200 transition-transform">
+                حفظ التغييرات
+            </button>
+</header>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+<!-- Left Side: Form Controls (8 columns) -->
+<div class="lg:col-span-7 space-y-gutter">
+<!-- Section: Basic Info -->
+<div class="glass-card p-stack-lg rounded-xl">
+<div class="flex items-center gap-2 mb-stack-lg border-b border-outline-variant pb-stack-md">
+<span class="material-symbols-outlined text-primary" data-icon="store">store</span>
+<h3 class="font-title-md text-title-md">المعلومات الأساسية</h3>
+</div>
+<div class="space-y-stack-lg">
+<div class="flex flex-col gap-stack-sm">
+<label class="font-label-caps text-label-caps text-on-surface-variant">اسم المطعم</label>
+<input class="w-full bg-surface border border-outline/20 rounded-lg px-4 py-3 focus:border-primary focus:ring-2 focus:ring-primary/10 transition-all outline-none text-body-lg" placeholder="أدخل اسم المطعم هنا" type="text" value="GARDEN"/>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-gutter">
+<div class="flex flex-col gap-stack-sm">
+<label class="font-label-caps text-label-caps text-on-surface-variant">تحميل الشعار</label>
+<div class="border-2 border-dashed border-outline-variant rounded-xl p-stack-lg flex flex-col items-center justify-center cursor-pointer hover:bg-surface-variant/10 transition-colors">
+<span class="material-symbols-outlined text-outline text-4xl mb-2" data-icon="upload_file">upload_file</span>
+<span class="font-body-sm text-body-sm text-outline">SVG, PNG or JPG</span>
+</div>
+</div>
+<div class="flex flex-col gap-stack-sm">
+<label class="font-label-caps text-label-caps text-on-surface-variant">صورة الغلاف</label>
+<div class="border-2 border-dashed border-outline-variant rounded-xl p-stack-lg flex flex-col items-center justify-center cursor-pointer hover:bg-surface-variant/10 transition-colors">
+<span class="material-symbols-outlined text-outline text-4xl mb-2" data-icon="add_photo_alternate">add_photo_alternate</span>
+<span class="font-body-sm text-body-sm text-outline">Aspect ratio 16:9</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Section: Theme Branding -->
+<div class="glass-card p-stack-lg rounded-xl">
+<div class="flex items-center gap-2 mb-stack-lg border-b border-outline-variant pb-stack-md">
+<span class="material-symbols-outlined text-primary" data-icon="palette">palette</span>
+<h3 class="font-title-md text-title-md">ألوان الثيم والهوية</h3>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-gutter">
+<div class="flex flex-col gap-stack-sm items-center">
+<div class="w-12 h-12 rounded-full bg-primary border-4 border-white shadow-sm cursor-pointer hover:scale-110 transition-transform"></div>
+<span class="font-label-caps text-label-caps">الرئيسي</span>
+</div>
+<div class="flex flex-col gap-stack-sm items-center">
+<div class="w-12 h-12 rounded-full bg-secondary border-4 border-white shadow-sm cursor-pointer hover:scale-110 transition-transform"></div>
+<span class="font-label-caps text-label-caps">الثانوي</span>
+</div>
+<div class="flex flex-col gap-stack-sm items-center">
+<div class="w-12 h-12 rounded-full bg-[#1B3022] border-4 border-white shadow-sm cursor-pointer hover:scale-110 transition-transform"></div>
+<span class="font-label-caps text-label-caps">الحاويات</span>
+</div>
+<div class="flex flex-col gap-stack-sm items-center">
+<div class="w-12 h-12 rounded-full bg-surface-container-low border-4 border-white shadow-sm cursor-pointer hover:scale-110 transition-transform"></div>
+<span class="font-label-caps text-label-caps">الخلفية</span>
+</div>
+</div>
+<div class="mt-stack-lg p-stack-md bg-primary-fixed rounded-lg flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-on-primary-fixed" data-icon="auto_awesome">auto_awesome</span>
+<p class="font-body-sm text-body-sm text-on-primary-fixed">توليد لوحة ألوان مقترحة بناءً على الشعار</p>
+</div>
+<button class="text-primary font-label-caps text-label-caps border border-primary/20 px-4 py-2 rounded-lg bg-white/50">توليد الآن</button>
+</div>
+</div>
+</div>
+<!-- Right Side: Live Preview (5 columns) -->
+<div class="lg:col-span-5 flex flex-col items-center">
+<div class="sticky top-stack-lg w-full flex flex-col items-center">
+<div class="mb-gutter flex items-center gap-2">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="stay_primary_portrait">stay_primary_portrait</span>
+<span class="font-label-caps text-label-caps text-on-surface-variant">معاينة مباشرة للعملاء</span>
+</div>
+<!-- Phone Preview Container -->
+<div class="preview-phone bg-surface">
+<!-- Top Bar -->
+<div class="h-6 w-1/3 bg-black absolute top-0 left-1/2 -translate-x-1/2 rounded-b-2xl z-20"></div>
+<!-- Inner Content (The Menu App) -->
+<div class="h-full overflow-y-auto no-scrollbar pb-20">
+<!-- Hero Cover -->
+<div class="h-40 relative">
+<img class="w-full h-full object-cover" data-alt="A lush and premium restaurant interior with botanical accents, indoor plants, and natural light spilling over elegant dark wood furniture. The atmosphere is sophisticated and tranquil, featuring a professional light-mode aesthetic with deep green and cream tones." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA-Nu9CvQ4vnEz6FqJYyHo7qIePVcKwy_JuXLNRz_kh2r4ZPSZH_crGCEoFn5ipVvf_Hs-WXBnUSvIvgxJ6Zm4-yqglX53UQJCToiMbRpoOEvei1BU-UHJr7DzxQazwAPXyE4qezK5BEoCpT63XfswhsPQ_wuXyq4eMvBMJtRFGu7NaiV0eJepjUHnhCrkPmeiz9ve7poKGNus9b6TICQPbqA1aUQ4PUmKGOSBCHwDsyt3fADdYkUnoChhzT8DrlqAq_b2n0zFaZFem"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+<div class="absolute bottom-4 right-4">
+<h4 class="text-white font-headline-lg-mobile text-headline-lg-mobile">GARDEN</h4>
+</div>
+</div>
+<!-- Menu Items -->
+<div class="p-4 space-y-4">
+<div class="flex gap-2 mb-4 overflow-x-auto no-scrollbar">
+<span class="bg-secondary-container text-on-secondary-container px-4 py-1 rounded-full text-xs font-bold whitespace-nowrap">الكل</span>
+<span class="bg-surface-variant text-on-surface-variant px-4 py-1 rounded-full text-xs whitespace-nowrap">مشروبات ساخنة</span>
+<span class="bg-surface-variant text-on-surface-variant px-4 py-1 rounded-full text-xs whitespace-nowrap">حلويات</span>
+</div>
+<!-- Card 1 -->
+<div class="bg-white rounded-xl overflow-hidden shadow-sm border border-black/5">
+<div class="h-32">
+<img class="w-full h-full object-cover" data-alt="A macro shot of a specialty latte in a ceramic green cup, topped with intricate leaf latte art. The setting is a minimalist cafe with natural wood textures and soft daylight, evoking a sense of calm botanical luxury and premium craftsmanship." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBMc0Qv33IkEAZXc0G8E9dsowJRGiZdFWMmilCcYMvuDi3exXrjgXebwfErvaljw_qRTH27CJ8HQz8aT2MmuqhYfLMsUSuJn-aYyxPKWrisrRlR9Rx8CWnJQPv01I8Ul5S4ewySGQ4AoRsV7RZB0YvjbVYH_YQTC5jgZaFbC5kNVDxnjJtdEKf-WaSQCkmicQLsjrOSv_yGOtvDfHrBNwLcB244f3mcIDEKiLMUns_kSYPcI-MWvQgmX1OtyikvaEAX8e0GMSH5W7rz"/>
+</div>
+<div class="p-3">
+<div class="flex justify-between items-center">
+<span class="font-title-md text-sm">لاتيه كلاسيك</span>
+<span class="font-price-tag text-primary text-sm">٢٤ ر.س</span>
+</div>
+<p class="text-[10px] text-on-surface-variant mt-1">حبوب بن مختارة بعناية مع حليب طازج</p>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="bg-white rounded-xl overflow-hidden shadow-sm border border-black/5">
+<div class="h-32">
+<img class="w-full h-full object-cover" data-alt="A close-up of a decadent dark chocolate lava cake on a textured white plate, dusted with powdered sugar and garnished with a single mint leaf. The lighting is dramatic and warm, highlighting the rich textures and premium botanical feel of the dessert." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCoqfJ5Lk9iC9BcR08PrUjcKQ8S2tVwCAl6VAtZVeB0tnd7y5cJsYvBB9qsRB7vsv55TKGlhnIR_C_QAqvwJ1xdPxtQhPg7gt6F5QnduRvuqBYbHI7yf1tMn3KUrpYfNYjro1Yi7xnV8_dF_wsLGzURJ-jtOI4adDSyO0guB7WllaJznop1c89TwjifFAZZi1j2RXDc27mpQhs9Xr9SpLETL15pFuGEemZFrnrx7H8g7_iDa0iW4w4Wz6QkvhS1AC0JybonVfrYs2xR"/>
+</div>
+<div class="p-3">
+<div class="flex justify-between items-center">
+<span class="font-title-md text-sm">كيكة الشوكولاتة</span>
+<span class="font-price-tag text-primary text-sm">٣٢ ر.س</span>
+</div>
+<p class="text-[10px] text-on-surface-variant mt-1">شوكولاتة بلجيكية فاخرة تقدم ساخنة</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Bottom Nav (Authority: JSON) -->
+<div class="absolute bottom-0 left-0 w-full z-50 flex flex-row-reverse justify-around items-center px-2 py-2 bg-surface-container-lowest border-t border-black/5 shadow-lg">
+<div class="flex flex-col items-center justify-center bg-secondary-container text-on-secondary-container rounded-xl px-2 py-1 transition-transform scale-90">
+<span class="material-symbols-outlined text-lg" data-icon="coffee">coffee</span>
+<span class="text-[8px] font-body-sm">Hot Drinks</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant px-2 py-1 scale-90">
+<span class="material-symbols-outlined text-lg" data-icon="icecream">icecream</span>
+<span class="text-[8px] font-body-sm">Cold Drinks</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant px-2 py-1 scale-90">
+<span class="material-symbols-outlined text-lg" data-icon="cake">cake</span>
+<span class="text-[8px] font-body-sm">Desserts</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant px-2 py-1 scale-90">
+<span class="material-symbols-outlined text-lg" data-icon="more_horiz">more_horiz</span>
+<span class="text-[8px] font-body-sm">More</span>
+</div>
+</div>
+</div>
+<p class="mt-4 text-xs text-outline italic">سيتم تحديث المعاينة فور تغيير الإعدادات</p>
+</div>
+</div>
+</div>
+</main>
+<script>
+        // Simple micro-interactions for the inputs
+        const inputs = document.querySelectorAll('input');
+        inputs.forEach(input => {
+            input.addEventListener('focus', () => {
+                input.parentElement.querySelector('label').classList.add('text-primary');
+            });
+            input.addEventListener('blur', () => {
+                input.parentElement.querySelector('label').classList.remove('text-primary');
+            });
+        });
+
+        // Toggle Active States in Sidebar
+        const navItems = document.querySelectorAll('aside nav a');
+        navItems.forEach(item => {
+            item.addEventListener('click', (e) => {
+                navItems.forEach(i => {
+                    i.classList.remove('bg-on-primary-container', 'text-primary-fixed');
+                    i.classList.add('text-on-primary/70');
+                });
+                item.classList.add('bg-on-primary-container', 'text-primary-fixed');
+                item.classList.remove('text-on-primary/70');
+            });
+        });
+    </script>
+</body></html>

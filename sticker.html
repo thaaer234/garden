@@ -1,0 +1,2196 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Garden Cafe — Note Sticker Designer</title>
+    <!-- Google Fonts for Brand Cohesion -->
+    <link href="https://fonts.googleapis.com/css2?family=Almarai:wght@300;400;700;800&family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <!-- Three.js and OrbitControls CDNs for 3D Preview -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    <!-- Konva.js CDN for interactive 2D editing -->
+    <script src="https://unpkg.com/konva@8/konva.min.js"></script>
+    <style>
+        /* ── Design System Variables ── */
+        :root {
+            /* Brand Identity Colors (From variables.css) */
+            --brand-primary: #061b0e;     /* Deep Forest Green */
+            --brand-secondary: #5a632e;   /* Olive Green */
+            
+            /* Theme Backgrounds */
+            --sticker-bg-start: #ffffff;
+            --sticker-bg-end: #faf9f6;
+            --watermark-opacity: 0.045;
+            
+            /* Interface Styling */
+            --bg-app: #09130c;            /* Dark forest background */
+            --panel-bg: rgba(14, 28, 19, 0.9);
+            --panel-border: rgba(90, 99, 46, 0.25);
+            --text-light: #f5eedc;
+            --text-dim: #8b9a8e;
+            --card-shadow: 0 25px 60px rgba(0, 0, 0, 0.45);
+            
+            /* Sticker border cut guide */
+            --sticker-border-style: 0.12mm solid rgba(90, 99, 46, 0.25);
+            
+            /* Logo color filter */
+            --logo-filter: url(#color-brand-primary);
+        }
+
+        /* ── Reset & General Layout ── */
+        *, *::before, *::after { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+        }
+
+        body {
+            background-color: var(--bg-app);
+            background-image: 
+                radial-gradient(circle at 15% 20%, rgba(90, 99, 46, 0.08) 0%, transparent 45%),
+                radial-gradient(circle at 85% 80%, rgba(6, 27, 14, 0.25) 0%, transparent 50%);
+            font-family: 'Almarai', 'Montserrat', sans-serif;
+            color: var(--text-light);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: row;
+            overflow-x: hidden;
+        }
+
+        /* ── Sidebar Controls Panel ── */
+        .sidebar {
+            width: 380px;
+            background: var(--panel-bg);
+            border-left: 1px solid var(--panel-border);
+            padding: 40px 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            backdrop-filter: blur(15px);
+            z-index: 100;
+            flex-shrink: 0;
+            overflow-y: auto;
+            box-shadow: -10px 0 35px rgba(0,0,0,0.6);
+        }
+
+        .brand-header {
+            text-align: center;
+            border-bottom: 1px solid rgba(90, 99, 46, 0.2);
+            padding-bottom: 20px;
+        }
+
+        .brand-header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 26px;
+            font-weight: 700;
+            color: var(--text-light);
+            letter-spacing: 2px;
+            line-height: 1.2;
+        }
+
+        .brand-header h1 span {
+            color: var(--brand-secondary);
+        }
+
+        .brand-header p {
+            font-size: 13px;
+            color: var(--text-dim);
+            margin-top: 6px;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .section-title {
+            font-size: 13.5px;
+            font-weight: 700;
+            color: var(--brand-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* ── Controls Elements ── */
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        /* Template Selector */
+        .template-selector {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        .template-btn {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 8px;
+            padding: 12px;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            color: var(--text-light);
+        }
+
+        .template-btn:hover {
+            background: rgba(90, 99, 46, 0.08);
+            border-color: rgba(90, 99, 46, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .template-btn.active {
+            background: rgba(90, 99, 46, 0.15);
+            border-color: var(--brand-secondary);
+            box-shadow: 0 0 15px rgba(90, 99, 46, 0.2);
+        }
+
+        .template-icon {
+            font-size: 18px;
+        }
+
+        .template-name {
+            font-size: 11.5px;
+            font-weight: 600;
+        }
+
+        /* Theme Selector Grid */
+        .theme-selector {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        .theme-btn {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 8px;
+            padding: 12px;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            color: var(--text-light);
+        }
+
+        .theme-btn:hover {
+            background: rgba(90, 99, 46, 0.08);
+            border-color: rgba(90, 99, 46, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .theme-btn.active {
+            background: rgba(90, 99, 46, 0.15);
+            border-color: var(--brand-secondary);
+            box-shadow: 0 0 15px rgba(90, 99, 46, 0.2);
+        }
+
+        .theme-preview {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            border: 1px solid rgba(0,0,0,0.2);
+        }
+
+        .theme-name {
+            font-size: 11.5px;
+            font-weight: 600;
+        }
+
+        /* Options Switch */
+        .option-switch {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 14px 18px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .option-switch:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(90, 99, 46, 0.3);
+        }
+
+        .switch-label-desc {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .switch-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-light);
+        }
+
+        .switch-desc {
+            font-size: 10.5px;
+            color: var(--text-dim);
+        }
+
+        .toggle-btn {
+            position: relative;
+            width: 44px;
+            height: 22px;
+            background: #1b2e21;
+            border-radius: 11px;
+            transition: background 0.3s ease;
+        }
+
+        .toggle-btn::after {
+            content: '';
+            position: absolute;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: #fff;
+            top: 2px;
+            right: 2px;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .option-switch.active .toggle-btn {
+            background: var(--brand-secondary);
+        }
+
+        .option-switch.active .toggle-btn::after {
+            transform: translateX(-22px);
+        }
+
+        /* Zoom Slider */
+        .zoom-slider-container {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 16px 18px;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .zoom-header {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .zoom-slider {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 4px;
+            border-radius: 2px;
+            background: #1a2a1f;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .zoom-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: var(--brand-secondary);
+            cursor: pointer;
+            box-shadow: 0 0 8px rgba(90, 99, 46, 0.5);
+            transition: transform 0.1s ease;
+        }
+
+        .zoom-slider::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: auto;
+        }
+
+        .btn {
+            font-family: 'Almarai', sans-serif;
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            padding: 15px 20px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--brand-secondary), #6a743a);
+            color: #ffffff;
+            box-shadow: 0 4px 20px rgba(90, 99, 46, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(90, 99, 46, 0.45);
+            filter: brightness(1.1);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.04);
+            color: var(--text-light);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(90, 99, 46, 0.3);
+        }
+
+        /* ── Preview Container ── */
+        .preview-area {
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+            overflow: auto;
+            position: relative;
+        }
+
+        /* ── A4 Page Sheet ── */
+        .a4-page {
+            width: 210mm;
+            height: 297mm;
+            background: radial-gradient(circle at center, var(--sticker-bg-start) 40%, var(--sticker-bg-end) 100%);
+            box-shadow: var(--card-shadow);
+            position: relative;
+            padding: 13.5mm 5mm; /* Centers the 200mm x 270mm grid exactly in A4 width/height */
+            box-sizing: border-box;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: background 0.4s ease, box-shadow 0.3s ease, transform 0.3s ease;
+            transform-origin: center center;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* ── Stickers Grid (2x3 = 6 stickers) ── */
+        .sticker-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 100mm);
+            grid-template-rows: repeat(3, 90mm);
+            width: 200mm;
+            height: 270mm;
+            gap: 0;
+            box-sizing: border-box;
+            background: transparent;
+            z-index: 10;
+        }
+
+        /* ── Single Sticker 100mm x 90mm ── */
+        .sticker {
+            width: 100mm;
+            height: 90mm;
+            position: relative;
+            background: radial-gradient(circle at center, var(--sticker-bg-start) 30%, var(--sticker-bg-end) 100%);
+            box-sizing: border-box;
+            border: var(--sticker-border-style);
+            overflow: hidden;
+            transition: background 0.4s ease, border-color 0.3s ease;
+        }
+
+        /* ── Outer and Inner Border Elements ── */
+        .sticker-border-outer {
+            position: absolute;
+            top: 3.5mm;
+            left: 3.5mm;
+            right: 3.5mm;
+            bottom: 3.5mm;
+            pointer-events: none;
+            z-index: 2;
+            transition: all 0.3s ease;
+        }
+
+        .sticker-border-inner {
+            position: absolute;
+            top: 4.8mm;
+            left: 4.8mm;
+            right: 4.8mm;
+            bottom: 4.8mm;
+            pointer-events: none;
+            z-index: 2;
+            transition: all 0.3s ease;
+        }
+
+        /* ── Corner Decorations ── */
+        .corner-deco {
+            position: absolute;
+            width: 9mm;
+            height: 9mm;
+            z-index: 3;
+            pointer-events: none;
+        }
+
+        .corner-deco.top-left {
+            top: 4.8mm;
+            left: 4.8mm;
+        }
+
+        .corner-deco.top-right {
+            top: 4.8mm;
+            right: 4.8mm;
+            transform: scaleX(-1);
+        }
+
+        .corner-deco.bottom-left {
+            bottom: 4.8mm;
+            left: 4.8mm;
+            transform: scaleY(-1);
+        }
+
+        .corner-deco.bottom-right {
+            bottom: 4.8mm;
+            right: 4.8mm;
+            transform: scale(-1, -1);
+        }
+
+        /* ── Botanical Corner Illustration ── */
+        .botanical-accent-tr {
+            position: absolute;
+            top: 6.5mm;
+            right: 6.5mm;
+            width: 19mm;
+            height: 19mm;
+            z-index: 3;
+            pointer-events: none;
+            opacity: 0.95;
+            transition: all 0.3s ease;
+        }
+
+        .botanical-accent-bl {
+            position: absolute;
+            bottom: 6.5mm;
+            left: 6.5mm;
+            width: 16mm;
+            height: 16mm;
+            z-index: 3;
+            pointer-events: none;
+            opacity: 0.95;
+            transform: rotate(180deg);
+            transition: all 0.3s ease;
+        }
+
+        /* ── Large Background Watermark ── */
+        .watermark-bg {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 64mm;
+            height: 64mm;
+            transform: translate(-50%, -50%) rotate(15deg);
+            z-index: 1;
+            pointer-events: none;
+            opacity: var(--watermark-opacity);
+            transition: opacity 0.4s ease;
+        }
+
+        .watermark-postmark {
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 54mm;
+            height: 54mm;
+            transform: translate(-50%, -50%) rotate(-10deg);
+            z-index: 1;
+            pointer-events: none;
+            opacity: var(--watermark-opacity);
+            transition: opacity 0.4s ease;
+        }
+
+        /* Geometric Tiny Ornaments */
+        .deco-dots-top {
+            position: absolute;
+            top: 3.5mm;
+            left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+            z-index: 4;
+            display: flex;
+            gap: 1.2mm;
+        }
+
+        .deco-dots-top::before, .deco-dots-top::after {
+            content: '';
+            width: 0.8mm;
+            height: 0.8mm;
+            background: var(--brand-secondary);
+            border-radius: 50%;
+        }
+
+        .deco-dots-bottom {
+            position: absolute;
+            bottom: 3.5mm;
+            left: 50%;
+            transform: translateX(-50%) translateY(50%);
+            z-index: 4;
+            display: flex;
+            gap: 1.2mm;
+        }
+
+        .deco-dots-bottom::before, .deco-dots-bottom::after {
+            content: '';
+            width: 0.8mm;
+            height: 0.8mm;
+            background: var(--brand-secondary);
+            border-radius: 50%;
+        }
+
+        /* ── Logo Area (Top-Left) ── */
+        .logo-container {
+            position: absolute;
+            top: 7.5mm;
+            left: 7.5mm;
+            z-index: 10;
+            transition: all 0.3s ease;
+        }
+
+        .sticker-logo {
+            display: none;
+            width: 15.0mm;
+            height: 15.0mm;
+            object-fit: cover;
+            transition: all 0.3s ease;
+        }
+
+        .sticker-logo-png {
+            display: none;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            filter: var(--logo-filter);
+            transition: all 0.3s ease;
+        }
+
+        /* ── QR Code Area (Bottom-Right) ── */
+        .qr-container {
+            position: absolute;
+            bottom: 7.5mm;
+            right: 7.5mm;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.0mm;
+            z-index: 10;
+        }
+
+        .qr-code-wrapper {
+            width: 12.5mm;
+            height: 12.5mm;
+            padding: 0.5mm;
+            border: 0.18mm solid rgba(90, 99, 46, 0.35);
+            border-radius: 1.0mm;
+            background: transparent; /* Fully transparent QR */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .qr-code-svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .qr-label {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.4mm;
+            font-weight: 600;
+            color: var(--brand-secondary);
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            line-height: 1;
+            transition: all 0.3s ease;
+        }
+
+        /* ── Print Instructions Banner ── */
+        .print-instructions {
+            background: rgba(90, 99, 46, 0.06);
+            border: 1px dashed rgba(90, 99, 46, 0.3);
+            border-radius: 8px;
+            padding: 15px;
+            font-size: 11.5px;
+            line-height: 1.6;
+            color: var(--text-dim);
+            text-align: justify;
+        }
+
+        .print-instructions strong {
+            color: var(--brand-secondary);
+        }
+
+        /* Custom Scrollbar for Sidebar */
+        .sidebar::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .sidebar::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.01);
+        }
+
+        .sidebar::-webkit-scrollbar-thumb {
+            background: rgba(90, 99, 46, 0.15);
+            border-radius: 3px;
+        }
+
+        .sidebar::-webkit-scrollbar-thumb:hover {
+            background: rgba(90, 99, 46, 0.3);
+        }
+
+        /* ── Template Styles System ── */
+        
+        /* 1. Style: Royal Luxury (Default) */
+        .style-royal .sticker-border-outer {
+            border: 0.26mm solid var(--brand-secondary);
+        }
+        .style-royal .sticker-border-inner {
+            border: 0.12mm solid var(--brand-primary);
+            opacity: 0.85;
+        }
+        .style-royal .corner-deco {
+            display: block;
+        }
+        .style-royal .botanical-accent-tr, 
+        .style-royal .botanical-accent-bl {
+            display: block;
+        }
+        .style-royal .sticker-logo {
+            display: block;
+            border-radius: 50%;
+            border: 0.3mm solid var(--brand-secondary);
+            padding: 0.5mm;
+            background: #ffffff;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+            width: 15.0mm;
+            height: 15.0mm;
+        }
+        .style-royal .sticker-logo-png {
+            display: none;
+        }
+
+        /* 2. Style: Minimalist Stamp */
+        .style-minimalist .sticker-border-outer {
+            display: block;
+            border: 0.26mm solid var(--brand-secondary);
+            top: 3.5mm; left: 3.5mm; right: 3.5mm; bottom: 3.5mm;
+        }
+        .style-minimalist .sticker-border-inner {
+            display: block;
+            border: 0.12mm solid var(--brand-primary);
+            top: 4.8mm; left: 4.8mm; right: 4.8mm; bottom: 4.8mm;
+            opacity: 0.85;
+        }
+        .style-minimalist .corner-deco {
+            display: none;
+        }
+        .style-minimalist .botanical-accent-tr {
+            display: block;
+            width: 22mm;
+            height: 22mm;
+            top: 6mm;
+            right: 6mm;
+            opacity: 0.95;
+        }
+        .style-minimalist .botanical-accent-bl {
+            display: block;
+            width: 18mm;
+            height: 18mm;
+            bottom: 6mm;
+            left: 6mm;
+            opacity: 0.95;
+        }
+        .style-minimalist .watermark-bg {
+            display: block;
+            opacity: 0.08;
+        }
+        .style-minimalist .watermark-postmark {
+            display: none;
+        }
+        .style-minimalist .deco-dots-top,
+        .style-minimalist .deco-dots-bottom {
+            display: flex;
+            opacity: 0.85;
+        }
+        .style-minimalist .logo-container {
+            top: 5mm;
+            left: 5mm;
+            background: transparent;
+            border: none;
+            box-shadow: none;
+        }
+        .style-minimalist .sticker-logo {
+            display: none;
+        }
+        .style-minimalist .sticker-logo-png {
+            display: block;
+            width: 25mm;
+            height: 17.5mm;
+            object-fit: contain;
+            border: none;
+            background: transparent;
+            box-shadow: none;
+            padding: 0;
+        }
+        .style-minimalist .qr-code-wrapper {
+            border: 0.15mm solid var(--brand-primary);
+            border-radius: 0;
+            padding: 0.8mm;
+        }
+        .style-minimalist .qr-label {
+            display: none; /* Ultra clean minimal look */
+        }
+
+        /* 3. Style: Organic Botanical */
+        .style-organic .sticker-border-outer {
+            border: 0.22mm dashed rgba(90, 99, 46, 0.4);
+            top: 3.5mm; left: 3.5mm; right: 3.5mm; bottom: 3.5mm;
+        }
+        .style-organic .sticker-border-inner {
+            display: none;
+        }
+        .style-organic .corner-deco {
+            display: none;
+        }
+        .style-organic .botanical-accent-tr {
+            display: block;
+            width: 24mm;
+            height: 24mm;
+            top: 4.5mm;
+            right: 4.5mm;
+            opacity: 0.75;
+        }
+        .style-organic .botanical-accent-bl {
+            display: block;
+            width: 20mm;
+            height: 20mm;
+            bottom: 4.5mm;
+            left: 4.5mm;
+            opacity: 0.75;
+        }
+        .style-organic .watermark-bg {
+            opacity: 0.06;
+        }
+        .style-organic .logo-container {
+            top: 6.5mm;
+            left: 6.5mm;
+        }
+        .style-organic .sticker-logo {
+            display: block;
+            width: 14.5mm;
+            height: 14.5mm;
+            border-radius: 35%; /* Squircle shape */
+            border: 0.25mm solid var(--brand-secondary);
+            padding: 0.4mm;
+            background: #ffffff;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+        }
+        .style-organic .sticker-logo-png {
+            display: none;
+        }
+        .style-organic .qr-code-wrapper {
+            border-radius: 50%;
+            border: 0.22mm solid var(--brand-secondary);
+        }
+
+        /* 4. Style: Art Deco Geometric (Diamond Logo Cutout) */
+        .style-artdeco .sticker-border-outer {
+            display: block;
+            border: 0.28mm solid var(--brand-secondary);
+            top: 3mm; left: 3mm; right: 3mm; bottom: 3mm;
+        }
+        .style-artdeco .sticker-border-inner {
+            display: block;
+            border: 0.15mm solid var(--brand-primary);
+            top: 4.2mm; left: 4.2mm; right: 4.2mm; bottom: 4.2mm;
+            opacity: 0.85;
+        }
+        .style-artdeco .corner-deco {
+            display: block;
+            width: 9mm;
+            height: 9mm;
+            top: 4.2mm;
+            left: 4.2mm;
+            opacity: 0.85;
+        }
+        .style-artdeco .botanical-accent-tr {
+            display: block;
+            width: 22mm;
+            height: 22mm;
+            top: 6mm;
+            right: 6mm;
+            opacity: 0.95;
+        }
+        .style-artdeco .botanical-accent-bl {
+            display: block;
+            width: 18mm;
+            height: 18mm;
+            bottom: 6mm;
+            left: 6mm;
+            opacity: 0.95;
+        }
+        .style-artdeco .watermark-bg {
+            display: block;
+            opacity: 0.08;
+        }
+        .style-artdeco .watermark-postmark {
+            display: none;
+        }
+        .style-artdeco .deco-dots-top,
+        .style-artdeco .deco-dots-bottom {
+            display: flex;
+            opacity: 0.85;
+        }
+        .style-artdeco .logo-container {
+            top: 5mm;
+            left: 5mm;
+            background: transparent;
+            border: none;
+            box-shadow: none;
+            transform: none;
+            width: auto;
+            height: auto;
+            overflow: visible;
+        }
+        .style-artdeco .sticker-logo {
+            display: none;
+        }
+        .style-artdeco .sticker-logo-png {
+            display: block;
+            width: 25mm;
+            height: 17.5mm;
+            transform: none;
+            object-fit: contain;
+            box-shadow: none;
+            background: transparent;
+            border: none;
+            padding: 0;
+        }
+        .style-artdeco .qr-code-wrapper {
+            border: 0.2mm solid var(--brand-secondary);
+            border-radius: 0; /* Square Art Deco QR */
+        }
+
+        /* ── Responsive Styling ── */
+        @media (max-width: 900px) {
+            body {
+                flex-direction: column;
+            }
+            .sidebar {
+                width: 100%;
+                border-left: none;
+                border-bottom: 1px solid var(--panel-border);
+                padding: 25px 20px;
+                overflow-y: visible;
+                box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            }
+            .preview-area {
+                padding: 20px;
+                min-height: 400px;
+            }
+        }
+
+        /* ── Print Engine Optimization (300 DPI Pixel-Perfect A4) ── */
+        @media print {
+            @page {
+                size: A4 portrait;
+                margin: 0; /* Enforces zero print margins for exact sticker template alignment */
+            }
+            
+            body {
+                background: #ffffff !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                width: 210mm !important;
+                height: 297mm !important;
+                overflow: hidden !important;
+            }
+
+            .sidebar {
+                display: none !important;
+            }
+
+            .preview-area {
+                padding: 0 !important;
+                overflow: visible !important;
+                background: #ffffff !important;
+                display: block !important;
+            }
+
+            .a4-page {
+                display: flex !important;
+                width: 210mm !important;
+                height: 297mm !important;
+                margin: 0 !important;
+                padding: 13.5mm 5mm !important; /* Perfect A4 centring for 200x270mm grid */
+                box-shadow: none !important;
+                border: none !important;
+                background: var(--sticker-bg-end) !important;
+                page-break-after: always;
+                box-sizing: border-box;
+                transform: none !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+
+            .sticker-grid {
+                width: 200mm !important;
+                height: 270mm !important;
+                gap: 0 !important;
+                background: transparent !important;
+            }
+
+            .sticker {
+                width: 100mm !important;
+                height: 90mm !important;
+                page-break-inside: avoid !important;
+                background: radial-gradient(circle at center, var(--sticker-bg-start) 30%, var(--sticker-bg-end) 100%) !important;
+                border: var(--sticker-border-style) !important;
+                box-sizing: border-box !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+            .preview-mode-bar, #container-3d, #konva-editor-container {
+                display: none !important;
+            }
+        }
+
+        /* ── 2D/3D Mode Switcher ── */
+        .preview-mode-bar {
+            position: absolute;
+            top: 25px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            background: rgba(14, 28, 19, 0.95);
+            border: 1px solid var(--panel-border);
+            padding: 4px;
+            border-radius: 30px;
+            z-index: 500;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+        }
+
+        .mode-tab {
+            font-family: 'Almarai', sans-serif;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text-dim);
+            background: transparent;
+            border: none;
+            padding: 10px 22px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            white-space: nowrap;
+        }
+
+        .mode-tab:hover {
+            color: var(--text-light);
+        }
+
+        .mode-tab.active {
+            color: #ffffff;
+            background: var(--brand-secondary);
+            box-shadow: 0 4px 12px rgba(90, 99, 46, 0.4);
+        }
+
+        /* Konva Editor Container */
+        #konva-editor-container {
+            width: 600px;
+            height: 540px;
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: var(--card-shadow);
+            position: relative;
+            display: block;
+            overflow: hidden;
+            border: 1px solid rgba(90, 99, 46, 0.25);
+            transition: transform 0.3s ease;
+        }
+
+        /* 3D Container */
+        #container-3d {
+            width: 100%;
+            height: 100%;
+            min-height: 550px;
+            display: none;
+            position: relative;
+            outline: none;
+        }
+        
+        #container-3d canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+            border-radius: 12px;
+        }
+
+        /* Interactive Tools Sidebar Section */
+        .tools-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 15px;
+        }
+
+        .btn-tool {
+            font-family: 'Almarai', sans-serif;
+            font-size: 12.5px;
+            font-weight: 700;
+            padding: 10px 15px;
+            border-radius: 8px;
+            border: 1px solid rgba(255,255,255,0.08);
+            background: rgba(255,255,255,0.02);
+            color: var(--text-light);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .btn-tool:hover {
+            background: rgba(90, 99, 46, 0.12);
+            border-color: var(--brand-secondary);
+        }
+
+        .btn-tool-danger {
+            border-color: rgba(217, 83, 79, 0.2);
+            background: rgba(217, 83, 79, 0.02);
+        }
+
+        .btn-tool-danger:hover {
+            background: rgba(217, 83, 79, 0.12);
+            border-color: #d9534f;
+            color: #ff9999;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ── Sidebar Controls Panel ── -->
+    <div class="sidebar">
+        <div class="brand-header">
+            <h1>GARDIN<span>.</span></h1>
+            <p>مُصمّم ملصقات الملاحظات الفاخرة</p>
+        </div>
+
+        <!-- Section 1: Design Templates -->
+        <div class="control-group">
+            <span class="section-title">
+                <span>✨</span> قالب تصميم الملصق
+            </span>
+            <div class="template-selector">
+                <button class="template-btn active" data-style="royal">
+                    <span class="template-icon">👑</span>
+                    <span class="template-name">الملكي الفاخر</span>
+                </button>
+                <button class="template-btn" data-style="minimalist">
+                    <span class="template-icon">✉️</span>
+                    <span class="template-name">الختم البسيط</span>
+                </button>
+                <button class="template-btn" data-style="organic">
+                    <span class="template-icon">🌿</span>
+                    <span class="template-name">النباتي العضوي</span>
+                </button>
+                <button class="template-btn" data-style="artdeco">
+                    <span class="template-icon">💎</span>
+                    <span class="template-name">آرت ديكو هندسي</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Section 2: Themes Selection -->
+        <div class="control-group">
+            <span class="section-title">
+                <span>🎨</span> طابع لون الخلفية للملصقات
+            </span>
+            <div class="theme-selector">
+                <button class="theme-btn active" data-theme="ivory">
+                    <span class="theme-preview" style="background: #faf9f6;"></span>
+                    <span class="theme-name">العاجي الفاخر</span>
+                </button>
+                <button class="theme-btn" data-theme="sage">
+                    <span class="theme-preview" style="background: #f2f5f1;"></span>
+                    <span class="theme-name">الأخضر العشبي</span>
+                </button>
+                <button class="theme-btn" data-theme="blush">
+                    <span class="theme-preview" style="background: #faf5f2;"></span>
+                    <span class="theme-name">الوردي الفاخر</span>
+                </button>
+                <button class="theme-btn" data-theme="parchment">
+                    <span class="theme-preview" style="background: #f6f2e8;"></span>
+                    <span class="theme-name">البيج العتيق</span>
+                </button>
+            </div>
+            <button class="theme-btn" data-theme="minimal" style="grid-column: span 2; margin-top: 5px;">
+                <span class="theme-preview" style="background: #ffffff; border: 1px solid #dcdad5;"></span>
+                <span class="theme-name" style="margin-right: 8px;">الأبيض الكلاسيكي النقي</span>
+            </button>
+        </div>
+
+        <!-- Section 2b: Logo Color Selection -->
+        <div class="control-group">
+            <span class="section-title">
+                <span>🏷️</span> لون الشعار المفرغ
+            </span>
+            <div class="theme-selector" style="grid-template-columns: repeat(2, 1fr);">
+                <button class="theme-btn active" data-logo-color="green">
+                    <span class="theme-preview" style="background: #061b0e; border: 1px solid rgba(255,255,255,0.25);"></span>
+                    <span class="theme-name">أخضر الهوية</span>
+                </button>
+                <button class="theme-btn" data-logo-color="black">
+                    <span class="theme-preview" style="background: #000000; border: 1px solid rgba(255,255,255,0.25);"></span>
+                    <span class="theme-name">أسود كلاسيكي</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Section 3: Border Controls -->
+        <div class="control-group">
+            <span class="section-title">
+                <span>📏</span> خيارات حدود الصفحة والملصق
+            </span>
+            <div class="option-switch active" id="toggle-borders">
+                <div class="switch-label-desc">
+                    <span class="switch-title">إظهار حدود القص للملصقات</span>
+                    <span class="switch-desc">لرؤية إطار خفيف لتحديد أماكن قص الملصقات بعد الطباعة</span>
+                </div>
+                <div class="toggle-btn"></div>
+            </div>
+        </div>
+
+        <!-- Section 3b: Interactive Editor Tools -->
+        <div class="control-group" id="editor-tools-group">
+            <span class="section-title">
+                <span>🛠️</span> أدوات التصميم التفاعلي
+            </span>
+            <div class="tools-panel">
+                <button class="btn-tool" id="btn-add-text">
+                    <span>✍️</span> إضافة نص جديد
+                </button>
+                <button class="btn-tool" id="btn-add-leaf">
+                    <span>🌿</span> إضافة غصن نباتي إضافي
+                </button>
+                <button class="btn-tool btn-tool-danger" id="btn-delete-selected">
+                    <span>🗑️</span> حذف العنصر المختار
+                </button>
+            </div>
+        </div>
+
+        <!-- Section 4: Zoom Level -->
+        <div class="control-group">
+            <span class="section-title">
+                <span>🔍</span> تكبير وتصغير المعاينة
+            </span>
+            <div class="zoom-slider-container">
+                <div class="zoom-header">
+                    <span>نسبة العرض</span>
+                    <span id="zoom-value">75%</span>
+                </div>
+                <input type="range" class="zoom-slider" id="zoom-range" min="40" max="110" value="75">
+            </div>
+        </div>
+
+        <!-- Section 5: Print Instructions -->
+        <div class="control-group">
+            <span class="section-title">
+                <span>🖨️</span> تعليمات الطباعة الهامة
+            </span>
+            <div class="print-instructions">
+                مقياس الصفحة مصمم ليتناسب تماماً مع ورق <strong>A4</strong> بمقاس <strong>ملصقين عرض × 3 صفوف ارتفاع</strong> (إجمالي 6 ملصقات مستطيلة مقاس 100مم × 90مم).<br><br>
+                عند الضغط على طباعة، تأكد من ضبط الإعدادات التالية:<br>
+                • <strong>الهوامش (Margins):</strong> بلا هوامش (None / Zero)<br>
+                • <strong>المقياس (Scale):</strong> 100% (أو الافتراضي)<br>
+                • <strong>خيار طباعة الخلفيات:</strong> نشط (Background graphics: ON)
+            </div>
+        </div>
+
+        <!-- Section 6: Action Buttons -->
+        <div class="action-buttons">
+            <button class="btn btn-primary" onclick="window.print()">
+                <span>🖨️</span> طباعة الورقة (A4)
+            </button>
+            <a href="admin/dashboard.html" class="btn btn-secondary">
+                <span>⚙️</span> لوحة التحكم
+            </a>
+            <a href="index.html" class="btn btn-secondary">
+                <span>🏡</span> العودة للموقع الرئيسي
+            </a>
+        </div>
+    </div>
+
+    <!-- ── Preview Area (Right Side) ── -->
+    <div class="preview-area">
+        <!-- 2D/3D View Switcher -->
+        <div class="preview-mode-bar">
+            <button class="mode-tab active" id="btn-mode-editor">🎨 المصمم التفاعلي</button>
+            <button class="mode-tab" id="btn-mode-2d">📄 معاينة الطباعة (A4)</button>
+            <button class="mode-tab" id="btn-mode-3d">✨ مجسم ثلاثي الأبعاد (3D)</button>
+        </div>
+
+        <!-- Interactive Konva Editor Stage Container -->
+        <div id="konva-editor-container">
+            <div id="konva-editor"></div>
+        </div>
+
+        <div class="a4-page" id="a4-page" style="transform: scale(0.75); display: none;">
+            <div class="sticker-grid style-royal" id="sticker-grid">
+                <!-- Javascript will dynamically inject the 6 identical cloned stickers here -->
+            </div>
+        </div>
+
+        <div id="container-3d" style="display: none;"></div>
+
+        <!-- Hidden canvas for rendering sticker texture used by Three.js -->
+        <canvas id="hidden-sticker-canvas" width="1000" height="900" style="display: none;"></canvas>
+    </div>
+
+    <!-- Sticker Element Template -->
+    <template id="sticker-template">
+        <div class="sticker">
+            <img class="sticker-render" src="" alt="Sticker Design" style="width: 100%; height: 100%; object-fit: contain; display: block;" />
+        </div>
+    </template>
+
+    <script>
+        const themes = {
+            ivory: { start: '#ffffff', end: '#faf9f6', primary: '#061b0e', secondary: '#5a632e', watermark: 0.045 },
+            sage: { start: '#fbfcfb', end: '#f2f5f1', primary: '#061b0e', secondary: '#5a632e', watermark: 0.055 },
+            blush: { start: '#fffcfb', end: '#faf5f2', primary: '#061b0e', secondary: '#5a632e', watermark: 0.05 },
+            parchment: { start: '#faf8f3', end: '#f6f2e8', primary: '#061b0e', secondary: '#5a632e', watermark: 0.055 },
+            minimal: { start: '#ffffff', end: '#ffffff', primary: '#061b0e', secondary: '#5a632e', watermark: 0.03 }
+        };
+
+        let currentStyle = 'royal';
+        let currentTheme = 'ivory';
+        let currentLogoColor = 'green';
+        let showCutLines = true;
+        let currentMode = 'editor';
+
+        let scene, camera, renderer, controls;
+        let stickerPadMesh, padSideTexture, padTopTexture;
+        let is3DInitialized = false;
+
+        let stage, bgLayer, elementsLayer, transformer;
+        let bgRect;
+
+        const logoJpeg = new Image();
+        logoJpeg.src = 'logo.jpeg';
+        const logoPng = new Image();
+        logoPng.src = 'logo-removebg-preview.png';
+
+        let logoJpegLoaded = false;
+        let logoPngLoaded = false;
+
+        logoJpeg.onload = () => { logoJpegLoaded = true; if (stage) { updateLogoSource(); triggerRender(); } };
+        logoPng.onload = () => { logoPngLoaded = true; if (stage) { updateLogoSource(); triggerRender(); } };
+
+        function getColorizedLogoCanvas(img, colorCode) {
+            const c = document.createElement('canvas');
+            c.width = img.naturalWidth || img.width || 500;
+            c.height = img.naturalHeight || img.height || 350;
+            const ctx = c.getContext('2d');
+            ctx.drawImage(img, 0, 0);
+            ctx.globalCompositeOperation = 'source-in';
+            ctx.fillStyle = colorCode;
+            ctx.fillRect(0, 0, c.width, c.height);
+            return c;
+        }
+
+        function drawTextAlongArc(ctx, text, cx, cy, radius, startAngle, endAngle) {
+            const chars = text.split('');
+            const angleRange = endAngle - startAngle;
+            const angleStep = angleRange / (chars.length - 1 || 1);
+            ctx.save();
+            chars.forEach((char, i) => {
+                const angle = startAngle + i * angleStep;
+                const x = cx + radius * Math.cos(angle);
+                const y = cy + radius * Math.sin(angle);
+                ctx.save();
+                ctx.translate(x, y);
+                ctx.rotate(angle + Math.PI / 2);
+                ctx.fillText(char, 0, 0);
+                ctx.restore();
+            });
+            ctx.restore();
+        }
+
+        function createBotanicalBranchGroup(x, y, scale, rotation, primaryColor, secondaryColor) {
+            const group = new Konva.Group({
+                x: x, y: y, scaleX: scale, scaleY: scale, rotation: rotation,
+                name: 'botanical-branch', draggable: true
+            });
+            const stem = new Konva.Path({
+                data: 'M 5,35 C 12,28 20,18 35,5',
+                stroke: secondaryColor, strokeWidth: 0.6, listening: false
+            });
+            group.add(stem);
+            const leaves = [
+                { data: 'M 12,28 C 8,24 9,18 13,18 C 17,18 17,24 12,28 Z', fill: primaryColor, stroke: secondaryColor },
+                { data: 'M 15,25 C 19,21 21,23 20,27 C 19,30 16,28 15,25 Z', fill: secondaryColor, stroke: primaryColor },
+                { data: 'M 20,20 C 16,16 17,10 21,10 C 25,10 25,16 20,20 Z', fill: primaryColor, stroke: secondaryColor },
+                { data: 'M 23,17 C 27,13 29,15 28,19 C 27,22 24,20 23,17 Z', fill: secondaryColor, stroke: primaryColor },
+                { data: 'M 28,12 C 25,8 27,3 30,3 C 33,3 32,8 28,12 Z', fill: primaryColor, stroke: secondaryColor },
+                { data: 'M 30,9 C 34,6 35,8 34,11 C 33,14 31,12 30,9 Z', fill: secondaryColor, stroke: primaryColor },
+                { data: 'M 35,5 C 33,2 35,0 37,1 C 38,2 37,4 35,5 Z', fill: primaryColor }
+            ];
+            leaves.forEach(l => {
+                const path = new Konva.Path({
+                    data: l.data, fill: l.fill, stroke: l.stroke || null,
+                    strokeWidth: l.stroke ? 0.2 : 0, opacity: 0.9, listening: false
+                });
+                path.scale({ x: 10, y: 10 });
+                group.add(path);
+            });
+            stem.scale({ x: 10, y: 10 });
+            const hitRect = new Konva.Rect({
+                x: -30, y: -30, width: 380, height: 380, fill: 'transparent', listening: true
+            });
+            group.add(hitRect);
+            hitRect.moveToBottom();
+            return group;
+        }
+
+        function initKonva() {
+            stage = new Konva.Stage({ container: 'konva-editor', width: 1000, height: 900 });
+            bgLayer = new Konva.Layer();
+            elementsLayer = new Konva.Layer();
+            stage.add(bgLayer);
+            stage.add(elementsLayer);
+
+            transformer = new Konva.Transformer({
+                nodes: [], rotateAnchorOffset: 25, anchorSize: 10, anchorCornerRadius: 5,
+                borderStroke: '#5a632e', anchorStroke: '#5a632e', anchorFill: '#ffffff', keepRatio: true
+            });
+            elementsLayer.add(transformer);
+
+            drawBackground();
+            const theme = themes[currentTheme];
+            const primaryColor = theme.primary;
+            const secondaryColor = theme.secondary;
+
+            updateLogoSource();
+            updateQRSource();
+
+            const branch1 = createBotanicalBranchGroup(650, 50, 1.2, 0, primaryColor, secondaryColor);
+            branch1.id('branch-1');
+            branch1.on('mousedown touchstart', () => selectNode(branch1));
+            elementsLayer.add(branch1);
+
+            const branch2 = createBotanicalBranchGroup(80, 520, 1.0, 180, primaryColor, secondaryColor);
+            branch2.id('branch-2');
+            branch2.on('mousedown touchstart', () => selectNode(branch2));
+            elementsLayer.add(branch2);
+
+            const welcomeText = new Konva.Text({
+                x: 180, y: 380, text: 'Garden Cafe & Restaurant\nاكتب ملاحظتك هنا...',
+                fontSize: 28, fontFamily: 'Almarai', fontStyle: 'bold', fill: primaryColor,
+                align: 'center', width: 640, draggable: true, id: 'welcome-text'
+            });
+            welcomeText.on('mousedown touchstart', () => selectNode(welcomeText));
+            makeTextEditable(welcomeText);
+            elementsLayer.add(welcomeText);
+
+            stage.on('click tap', (e) => {
+                if (e.target === stage || e.target.id() === 'bg-rect') { deselectAll(); }
+            });
+
+            elementsLayer.on('dragmove transform dragend transformend', () => { triggerRender(); });
+            fitStageIntoParentContainer();
+            triggerRender();
+        }
+
+        function fitStageIntoParentContainer() {
+            const container = document.getElementById('konva-editor-container');
+            if (!container || !stage) return;
+            const parentWidth = container.offsetWidth;
+            const parentHeight = container.offsetHeight;
+            const scale = Math.min(parentWidth / 1000, parentHeight / 900);
+            stage.width(1000 * scale);
+            stage.height(900 * scale);
+            stage.scale({ x: scale, y: scale });
+            stage.draw();
+        }
+
+        function drawBackground() {
+            bgLayer.destroyChildren();
+            const theme = themes[currentTheme];
+            const primaryColor = theme.primary;
+            const secondaryColor = theme.secondary;
+            const watermarkOpacity = theme.watermark;
+
+            bgRect = new Konva.Rect({
+                x: 30, y: 30, width: 940, height: 840, id: 'bg-rect',
+                fillLinearGradientStartPoint: { x: 0, y: 0 },
+                fillLinearGradientEndPoint: { x: 1000, y: 900 },
+                fillLinearGradientColorStops: [0, theme.start, 1, theme.end],
+                shadowColor: '#000000', shadowBlur: 20, shadowOffset: { x: 5, y: 10 }, shadowOpacity: 0.15,
+                cornerRadius: (currentStyle === 'royal') ? 8 : (currentStyle === 'organic') ? 12 : 0
+            });
+            bgLayer.add(bgRect);
+
+            if (currentStyle === 'royal') {
+                bgLayer.add(new Konva.Rect({ x: 35, y: 35, width: 930, height: 830, stroke: secondaryColor, strokeWidth: 3, listening: false }));
+                bgLayer.add(new Konva.Rect({ x: 48, y: 48, width: 904, height: 804, stroke: primaryColor, strokeWidth: 1.5, listening: false }));
+                drawRoyalCornerDecors(bgLayer, primaryColor, secondaryColor);
+                drawWatermarkLeaves(bgLayer, secondaryColor, watermarkOpacity);
+                drawDotsCenter(bgLayer, secondaryColor);
+            } else if (currentStyle === 'minimalist') {
+                const step = 25, radius = 8;
+                for (let x = 42.5; x < 970; x += step) {
+                    bgLayer.add(new Konva.Circle({ x: x, y: 30, radius: radius, fill: '#000', globalCompositeOperation: 'destination-out', listening: false }));
+                    bgLayer.add(new Konva.Circle({ x: x, y: 870, radius: radius, fill: '#000', globalCompositeOperation: 'destination-out', listening: false }));
+                }
+                for (let y = 42.5; y < 870; y += step) {
+                    bgLayer.add(new Konva.Circle({ x: 30, y: y, radius: radius, fill: '#000', globalCompositeOperation: 'destination-out', listening: false }));
+                    bgLayer.add(new Konva.Circle({ x: 970, y: y, radius: radius, fill: '#000', globalCompositeOperation: 'destination-out', listening: false }));
+                }
+                bgLayer.add(new Konva.Rect({ x: 55, y: 55, width: 890, height: 790, stroke: primaryColor, strokeWidth: 1.5, dash: [6, 8], listening: false }));
+                
+                const postmark = new Konva.Shape({
+                    sceneFunc: function (context, shape) {
+                        const ctx = context._context;
+                        ctx.beginPath();
+                        ctx.strokeStyle = primaryColor;
+                        ctx.lineWidth = 1.5;
+                        ctx.globalAlpha = watermarkOpacity * 2.5;
+                        ctx.arc(650, 380, 160, 0, Math.PI * 2);
+                        ctx.stroke();
+                        ctx.beginPath();
+                        ctx.arc(650, 380, 140, 0, Math.PI * 2);
+                        ctx.stroke();
+                        ctx.lineWidth = 1.2;
+                        for (let offset = -25; offset <= 25; offset += 16) {
+                            ctx.beginPath();
+                            ctx.moveTo(250, 380 + offset);
+                            ctx.bezierCurveTo(400, 340 + offset, 550, 420 + offset, 700, 380 + offset);
+                            ctx.bezierCurveTo(800, 340 + offset, 900, 420 + offset, 950, 380 + offset);
+                            ctx.stroke();
+                        }
+                        ctx.fillStyle = primaryColor;
+                        ctx.font = "bold 20px Montserrat, Almarai";
+                        ctx.textAlign = "center";
+                        ctx.textBaseline = "middle";
+                        drawTextAlongArc(ctx, "GARDEN CAFE", 650, 380, 148, Math.PI * 1.15, Math.PI * 1.85);
+                        drawTextAlongArc(ctx, "EST. 2026", 650, 380, 148, Math.PI * 0.15, Math.PI * 0.85);
+                    },
+                    listening: false
+                });
+                bgLayer.add(postmark);
+            } else if (currentStyle === 'organic') {
+                bgLayer.add(new Konva.Rect({ x: 35, y: 35, width: 930, height: 830, stroke: secondaryColor, strokeWidth: 2, dash: [12, 10], cornerRadius: 10, listening: false }));
+                drawOrganicLeavesWatermarks(bgLayer, secondaryColor, watermarkOpacity);
+            } else if (currentStyle === 'artdeco') {
+                bgLayer.add(new Konva.Rect({ x: 30, y: 30, width: 940, height: 840, stroke: secondaryColor, strokeWidth: 3, listening: false }));
+                bgLayer.add(new Konva.Rect({ x: 45, y: 45, width: 910, height: 810, stroke: primaryColor, strokeWidth: 1.5, listening: false }));
+                bgLayer.add(new Konva.Line({ points: [20, 45, 980, 45], stroke: secondaryColor, strokeWidth: 1.5, listening: false }));
+                bgLayer.add(new Konva.Line({ points: [20, 810, 980, 810], stroke: secondaryColor, strokeWidth: 1.5, listening: false }));
+                bgLayer.add(new Konva.Line({ points: [45, 20, 45, 880], stroke: secondaryColor, strokeWidth: 1.5, listening: false }));
+                bgLayer.add(new Konva.Line({ points: [910, 20, 910, 880], stroke: secondaryColor, strokeWidth: 1.5, listening: false }));
+                const corners = [{ x: 45, y: 45 }, { x: 910, y: 45 }, { x: 45, y: 810 }, { x: 910, y: 810 }];
+                corners.forEach(pt => {
+                    bgLayer.add(new Konva.RegularPolygon({ x: pt.x, y: pt.y, sides: 4, radius: 12, fill: secondaryColor, listening: false }));
+                });
+                drawWatermarkLeaves(bgLayer, secondaryColor, watermarkOpacity);
+            }
+            bgLayer.batchDraw();
+        }
+
+        function drawRoyalCornerDecors(layer, primaryColor, secondaryColor) {
+            const corners = [
+                { x: 48, y: 48, sx: 1, sy: 1 },
+                { x: 952, y: 48, sx: -1, sy: 1 },
+                { x: 48, y: 852, sx: 1, sy: -1 },
+                { x: 952, y: 852, sx: -1, sy: -1 }
+            ];
+            corners.forEach(c => {
+                const group = new Konva.Group({ x: c.x, y: c.y, scaleX: c.sx, scaleY: c.sy });
+                group.add(new Konva.Path({ data: 'M 0,60 A 60,60 0 0,1 60,0', stroke: secondaryColor, strokeWidth: 3.2, listening: false }));
+                group.add(new Konva.Path({ data: 'M 0,0 L 0,80 L 16,80 L 16,16 L 80,16 L 80,0 Z', fill: secondaryColor, listening: false }));
+                group.add(new Konva.Circle({ x: 38, y: 38, radius: 4, fill: secondaryColor, listening: false }));
+                layer.add(group);
+            });
+        }
+
+        function drawWatermarkLeaves(layer, color, opacity) {
+            const branch = createBotanicalBranchGroup(500, 450, 4.0, 15, color, color);
+            branch.listening(false);
+            branch.getChildren().forEach(child => { child.opacity(opacity); });
+            branch.offsetX(190);
+            branch.offsetY(190);
+            layer.add(branch);
+        }
+
+        function drawOrganicLeavesWatermarks(layer, color, opacity) {
+            const leaf1 = createBotanicalBranchGroup(850, 150, 2.5, -45, color, color);
+            leaf1.listening(false);
+            leaf1.getChildren().forEach(c => c.opacity(opacity));
+            layer.add(leaf1);
+            const leaf2 = createBotanicalBranchGroup(150, 750, 2.0, 135, color, color);
+            leaf2.listening(false);
+            leaf2.getChildren().forEach(c => c.opacity(opacity));
+            layer.add(leaf2);
+        }
+
+        function drawDotsCenter(layer, color) {
+            const dots = [{ x: 500, y: 35 }, { x: 500, y: 865 }];
+            dots.forEach(d => {
+                const group = new Konva.Group({ x: d.x, y: d.y });
+                group.add(new Konva.Circle({ x: -6, y: 0, radius: 4, fill: color, listening: false }));
+                group.add(new Konva.Circle({ x: 6, y: 0, radius: 4, fill: color, listening: false }));
+                layer.add(group);
+            });
+        }
+
+        function updateLogoSource() {
+            const oldLogo = stage.findOne('#logo-element');
+            let transform = { x: 80, y: 80, scaleX: 1, scaleY: 1, rotation: 0 };
+            if (oldLogo) {
+                transform.x = oldLogo.x();
+                transform.y = oldLogo.y();
+                transform.scaleX = oldLogo.scaleX();
+                transform.scaleY = oldLogo.scaleY();
+                transform.rotation = oldLogo.rotation();
+                oldLogo.destroy();
+            }
+            const theme = themes[currentTheme];
+            const primaryColor = theme ? theme.primary : '#061b0e';
+            const secondaryColor = theme ? theme.secondary : '#5a632e';
+            let logoNode;
+
+            if (currentStyle === 'royal' || currentStyle === 'organic') {
+                const group = new Konva.Group({
+                    x: transform.x, y: transform.y, scaleX: transform.scaleX, scaleY: transform.scaleY, rotation: transform.rotation,
+                    id: 'logo-element', name: 'logo-element', draggable: true
+                });
+                const size = (currentStyle === 'royal') ? 150 : 145;
+                const radius = size / 2;
+                const clipGroup = new Konva.Group({
+                    x: 0, y: 0, width: size, height: size,
+                    clipFunc: function (ctx) {
+                        if (currentStyle === 'royal') { ctx.arc(radius, radius, radius, 0, Math.PI * 2); }
+                        else { ctx.roundRect(0, 0, size, size, 45); }
+                    }
+                });
+                clipGroup.add(new Konva.Rect({ x: 0, y: 0, width: size, height: size, fill: '#ffffff' }));
+                if (logoJpegLoaded) {
+                    clipGroup.add(new Konva.Image({ x: 0, y: 0, width: size, height: size, image: logoJpeg }));
+                }
+                group.add(clipGroup);
+                if (currentStyle === 'royal') {
+                    group.add(new Konva.Circle({ x: radius, y: radius, radius: radius + 3, stroke: secondaryColor, strokeWidth: 3, listening: false }));
+                } else {
+                    group.add(new Konva.Rect({ x: -3, y: -3, width: size + 6, height: size + 6, stroke: secondaryColor, strokeWidth: 2.5, cornerRadius: 48, listening: false }));
+                }
+                logoNode = group;
+            } else {
+                const tintColor = (currentLogoColor === 'black') ? '#000000' : primaryColor;
+                if (logoPngLoaded) {
+                    const tintedCanvas = getColorizedLogoCanvas(logoPng, tintColor);
+                    logoNode = new Konva.Image({
+                        x: transform.x, y: transform.y, scaleX: transform.scaleX, scaleY: transform.scaleY, rotation: transform.rotation,
+                        id: 'logo-element', name: 'logo-element', width: 250, height: 175, image: tintedCanvas, draggable: true
+                    });
+                } else {
+                    logoNode = new Konva.Text({
+                        x: transform.x, y: transform.y, text: 'GARDIN', fontSize: 36, fontFamily: 'Playfair Display', fill: tintColor,
+                        id: 'logo-element', name: 'logo-element', draggable: true
+                    });
+                }
+            }
+            logoNode.on('mousedown touchstart', () => selectNode(logoNode));
+            elementsLayer.add(logoNode);
+            elementsLayer.batchDraw();
+            if (transformer.nodes().length > 0 && transformer.nodes()[0].id() === 'logo-element') {
+                transformer.nodes([logoNode]);
+            }
+        }
+
+        function updateQRSource() {
+            const oldQR = stage.findOne('#qr-element');
+            let transform = { x: 760, y: 660, scaleX: 1, scaleY: 1, rotation: 0 };
+            if (oldQR) {
+                transform.x = oldQR.x();
+                transform.y = oldQR.y();
+                transform.scaleX = oldQR.scaleX();
+                transform.scaleY = oldQR.scaleY();
+                transform.rotation = oldQR.rotation();
+                oldQR.destroy();
+            }
+            const theme = themes[currentTheme];
+            const primaryColor = theme ? theme.primary : '#061b0e';
+            const secondaryColor = theme ? theme.secondary : '#5a632e';
+            
+            const qrGroup = new Konva.Group({
+                x: transform.x, y: transform.y, scaleX: transform.scaleX, scaleY: transform.scaleY, rotation: transform.rotation,
+                id: 'qr-element', name: 'qr-element', draggable: true
+            });
+            const qrCanvas = document.createElement('canvas');
+            qrCanvas.width = 150; qrCanvas.height = 150;
+            const qCtx = qrCanvas.getContext('2d');
+            qCtx.fillStyle = primaryColor;
+            const qrScale = 150 / 100;
+            qCtx.scale(qrScale, qrScale);
+            
+            qCtx.beginPath(); qCtx.rect(0, 0, 24, 24); qCtx.rect(3, 3, 18, 18); qCtx.closePath(); qCtx.fill('evenodd'); qCtx.fillRect(6, 6, 12, 12);
+            qCtx.beginPath(); qCtx.rect(76, 0, 24, 24); qCtx.rect(79, 3, 18, 18); qCtx.closePath(); qCtx.fill('evenodd'); qCtx.fillRect(82, 6, 12, 12);
+            qCtx.beginPath(); qCtx.rect(0, 76, 24, 24); qCtx.rect(3, 79, 18, 18); qCtx.closePath(); qCtx.fill('evenodd'); qCtx.fillRect(6, 82, 12, 12);
+            qCtx.beginPath(); qCtx.rect(70, 70, 10, 10); qCtx.rect(72, 72, 6, 6); qCtx.closePath(); qCtx.fill('evenodd'); qCtx.fillRect(74, 74, 2, 2);
+            
+            const qrBlocks = [
+                [28, 2, 4, 4], [36, 2, 8, 4], [48, 2, 4, 8], [56, 6, 4, 4], [64, 2, 8, 4],
+                [28, 10, 4, 4], [36, 10, 4, 8], [44, 14, 8, 4], [56, 14, 12, 4],
+                [28, 20, 8, 4], [40, 20, 4, 4], [48, 22, 8, 4], [60, 20, 8, 4],
+                [2, 28, 4, 8], [10, 32, 8, 4], [22, 28, 4, 4], [28, 28, 8, 8], [40, 28, 4, 4],
+                [48, 30, 4, 8], [56, 28, 12, 4], [72, 28, 4, 8], [80, 28, 8, 4], [92, 32, 6, 4],
+                [2, 40, 8, 4], [14, 40, 4, 8], [22, 40, 8, 4], [34, 40, 4, 4], [42, 40, 10, 4],
+                [56, 38, 4, 8], [64, 40, 8, 4], [76, 40, 4, 4], [84, 38, 4, 8], [92, 42, 4, 4],
+                [2, 52, 4, 4], [10, 50, 8, 4], [20, 52, 4, 8], [28, 50, 12, 4], [44, 52, 4, 4],
+                [52, 50, 8, 8], [64, 52, 4, 4], [72, 50, 8, 4], [84, 52, 12, 4],
+                [28, 62, 4, 8], [36, 60, 8, 4], [48, 62, 4, 4], [56, 62, 12, 4], [72, 60, 4, 8],
+                [80, 62, 8, 4], [92, 60, 4, 8],
+                [28, 72, 12, 4], [44, 70, 4, 8], [52, 74, 8, 4], [64, 70, 4, 4],
+                [28, 80, 4, 8], [36, 84, 8, 4], [48, 80, 4, 4], [56, 80, 10, 4],
+                [28, 92, 8, 4], [40, 90, 4, 8], [48, 92, 12, 4], [64, 90, 4, 4],
+                [84, 84, 12, 4], [84, 92, 4, 4], [92, 90, 4, 8]
+            ];
+            qrBlocks.forEach(b => qCtx.fillRect(b[0], b[1], b[2], b[3]));
+            
+            const qrSize = 130;
+            const borderOffset = (150 - qrSize) / 2;
+            
+            qrGroup.add(new Konva.Image({ x: borderOffset, y: borderOffset, width: qrSize, height: qrSize, image: qrCanvas }));
+            qrGroup.add(new Konva.Rect({
+                x: borderOffset - 5, y: borderOffset - 5, width: qrSize + 10, height: qrSize + 10,
+                stroke: (currentStyle === 'minimalist') ? primaryColor : secondaryColor,
+                strokeWidth: (currentStyle === 'minimalist') ? 1.5 : 2.0,
+                cornerRadius: (currentStyle === 'organic') ? (qrSize + 10) / 2 : (currentStyle === 'minimalist') ? 0 : 8
+            }));
+            
+            if (currentStyle !== 'minimalist') {
+                qrGroup.add(new Konva.Text({
+                    x: 0, y: borderOffset + qrSize + 12, width: 150, text: 'SCAN MENU',
+                    fontFamily: 'Montserrat', fontSize: 13, fontWeight: '600', fill: secondaryColor,
+                    align: 'center', letterSpacing: 0.8
+                }));
+            }
+            qrGroup.on('mousedown touchstart', () => selectNode(qrGroup));
+            elementsLayer.add(qrGroup);
+            elementsLayer.batchDraw();
+            if (transformer.nodes().length > 0 && transformer.nodes()[0].id() === 'qr-element') {
+                transformer.nodes([qrGroup]);
+            }
+        }
+
+        function recolorStageElements(primaryColor, secondaryColor) {
+            elementsLayer.find('Text').forEach(textNode => {
+                if (textNode.id() === 'welcome-text' || textNode.name() === 'custom-text') {
+                    textNode.fill(primaryColor);
+                }
+            });
+            elementsLayer.find('.botanical-branch').forEach(branchGroup => {
+                branchGroup.getChildren().forEach(child => {
+                    if (child.className === 'Path') {
+                        if (child.stroke()) {
+                            if (child.fill()) { child.fill(primaryColor); child.stroke(secondaryColor); }
+                            else { child.stroke(secondaryColor); }
+                        } else { child.fill(primaryColor); }
+                    }
+                });
+            });
+            elementsLayer.batchDraw();
+        }
+
+        function makeTextEditable(textNode) {
+            textNode.on('dblclick dbltap', () => {
+                textNode.hide();
+                transformer.hide();
+                stage.draw();
+                
+                const textPosition = textNode.absolutePosition();
+                const stageBox = stage.container().getBoundingClientRect();
+                
+                const textarea = document.createElement('textarea');
+                document.body.appendChild(textarea);
+                
+                textarea.value = textNode.text();
+                textarea.style.position = 'absolute';
+                textarea.style.top = (stageBox.top + window.scrollY + textPosition.y) + 'px';
+                textarea.style.left = (stageBox.left + window.scrollX + textPosition.x) + 'px';
+                textarea.style.width = (textNode.width() * stage.scaleX()) + 'px';
+                textarea.style.height = (textNode.height() * stage.scaleY() + 20) + 'px';
+                textarea.style.fontSize = (textNode.fontSize() * stage.scaleX()) + 'px';
+                textarea.style.border = '1px solid ' + textNode.fill();
+                textarea.style.padding = '0px';
+                textarea.style.margin = '0px';
+                textarea.style.background = '#ffffff';
+                textarea.style.color = textNode.fill();
+                textarea.style.fontFamily = textNode.fontFamily();
+                textarea.style.fontWeight = textNode.fontStyle();
+                textarea.style.outline = 'none';
+                textarea.style.resize = 'none';
+                textarea.style.zIndex = '2000';
+                textarea.focus();
+                
+                function removeTextarea() {
+                    textarea.parentNode.removeChild(textarea);
+                    window.removeEventListener('click', handleOutsideClick);
+                    textNode.show();
+                    transformer.show();
+                    stage.draw();
+                    triggerRender();
+                }
+                function handleOutsideClick(e) {
+                    if (e.target !== textarea) {
+                        textNode.text(textarea.value);
+                        removeTextarea();
+                    }
+                }
+                textarea.addEventListener('keydown', (e) => {
+                    if (e.keyCode === 13 && !e.shiftKey) { textNode.text(textarea.value); removeTextarea(); }
+                    if (e.keyCode === 27) { removeTextarea(); }
+                });
+                setTimeout(() => { window.addEventListener('click', handleOutsideClick); }, 50);
+            });
+        }
+
+        function selectNode(node) {
+            transformer.nodes([node]);
+            transformer.moveToTop();
+            elementsLayer.batchDraw();
+            document.getElementById('btn-delete-selected').style.opacity = '1';
+            document.getElementById('btn-delete-selected').style.pointerEvents = 'auto';
+        }
+
+        function deselectAll() {
+            transformer.nodes([]);
+            elementsLayer.batchDraw();
+            document.getElementById('btn-delete-selected').style.opacity = '0.5';
+            document.getElementById('btn-delete-selected').style.pointerEvents = 'none';
+        }
+
+        function drawStickerToCanvas() {
+            if (!stage) return;
+            const hiddenCanvas = document.getElementById('hidden-sticker-canvas');
+            const hCtx = hiddenCanvas.getContext('2d');
+            hCtx.clearRect(0, 0, 1000, 900);
+            
+            if (bgRect) bgRect.shadowOpacity(0);
+            transformer.hide();
+            stage.draw();
+            
+            hCtx.drawImage(bgLayer.getCanvas()._canvas, 0, 0, 1000, 900);
+            hCtx.drawImage(elementsLayer.getCanvas()._canvas, 0, 0, 1000, 900);
+            
+            if (bgRect) bgRect.shadowOpacity(0.15);
+            transformer.show();
+            stage.draw();
+            
+            const dataUrl = hiddenCanvas.toDataURL('image/png');
+            const imgs = document.querySelectorAll('.sticker-render');
+            imgs.forEach(img => { img.src = dataUrl; });
+            
+            if (padTopTexture) { padTopTexture.needsUpdate = true; }
+        }
+
+        function triggerRender() {
+            drawStickerToCanvas();
+            if (is3DInitialized && currentMode === '3d') { update3DTexture(); }
+        }
+
+        function init3D() {
+            if (is3DInitialized) return;
+            const container = document.getElementById('container-3d');
+            if (!container) return;
+
+            scene = new THREE.Scene();
+            scene.background = new THREE.Color('#09130c');
+            scene.fog = new THREE.FogExp2('#09130c', 0.08);
+
+            const width = container.clientWidth;
+            const height = container.clientHeight || 550;
+            camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 100);
+            camera.position.set(0, 6, 8.5);
+
+            renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
+            renderer.setSize(width, height);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            renderer.shadowMap.enabled = true;
+            renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+            renderer.toneMapping = THREE.ACESFilmicToneMapping;
+            renderer.toneMappingExposure = 1.2;
+            container.appendChild(renderer.domElement);
+
+            controls = new THREE.OrbitControls(camera, renderer.domElement);
+            controls.enableDamping = true;
+            controls.dampingFactor = 0.05;
+            controls.maxPolarAngle = Math.PI / 2 - 0.05;
+            controls.minDistance = 4.5;
+            controls.maxDistance = 15;
+            controls.autoRotate = true;
+            controls.autoRotateSpeed = 0.6;
+
+            scene.add(new THREE.AmbientLight('#ffffff', 0.5));
+
+            const dirLight = new THREE.DirectionalLight('#fffcf2', 1.15);
+            dirLight.position.set(5, 10, 3);
+            dirLight.castShadow = true;
+            dirLight.shadow.mapSize.width = 2048;
+            dirLight.shadow.mapSize.height = 2048;
+            dirLight.shadow.camera.near = 0.5;
+            dirLight.shadow.camera.far = 20;
+            const d = 5;
+            dirLight.shadow.camera.left = -d;
+            dirLight.shadow.camera.right = d;
+            dirLight.shadow.camera.top = d;
+            dirLight.shadow.camera.bottom = -d;
+            dirLight.shadow.bias = -0.0005;
+            scene.add(dirLight);
+
+            const pointLight = new THREE.PointLight('#fcecd2', 0.8, 12);
+            pointLight.position.set(-4, 3, 1);
+            scene.add(pointLight);
+
+            const tableGeo = new THREE.PlaneGeometry(35, 35);
+            const tableMat = new THREE.MeshStandardMaterial({ color: '#08120b', roughness: 0.55, metalness: 0.15 });
+            const table = new THREE.Mesh(tableGeo, tableMat);
+            table.rotation.x = -Math.PI / 2;
+            table.position.y = -0.21;
+            table.receiveShadow = true;
+            scene.add(table);
+
+            const padW = 6.0;
+            const padH = 0.4;
+            const padD = 5.4;
+            const padGeo = new THREE.BoxGeometry(padW, padH, padD);
+
+            const topCanvas = document.getElementById('hidden-sticker-canvas');
+            padTopTexture = new THREE.CanvasTexture(topCanvas);
+            padTopTexture.anisotropy = renderer.capabilities.getMaxAnisotropy();
+
+            const theme = themes[currentTheme];
+            padSideTexture = getPadSideTexture(theme.end);
+
+            const paperMat = new THREE.MeshStandardMaterial({ map: padSideTexture, roughness: 0.85, metalness: 0.05 });
+            const topMat = new THREE.MeshStandardMaterial({ map: padTopTexture, roughness: 0.65, metalness: 0.05 });
+            const bottomMat = new THREE.MeshStandardMaterial({ color: theme.end, roughness: 0.9, metalness: 0.05 });
+
+            const materials = [paperMat, paperMat, topMat, bottomMat, paperMat, paperMat];
+            stickerPadMesh = new THREE.Mesh(padGeo, materials);
+            stickerPadMesh.position.y = 0;
+            stickerPadMesh.castShadow = true;
+            stickerPadMesh.receiveShadow = true;
+            scene.add(stickerPadMesh);
+
+            is3DInitialized = true;
+            animate();
+        }
+
+        function getPadSideTexture(paperColor) {
+            const sideCanvas = document.createElement('canvas');
+            sideCanvas.width = 32; sideCanvas.height = 128;
+            const sCtx = sideCanvas.getContext('2d');
+            sCtx.fillStyle = paperColor;
+            sCtx.fillRect(0, 0, 32, 128);
+            sCtx.fillStyle = 'rgba(0, 0, 0, 0.06)';
+            for (let y = 0; y < 128; y += 2) { sCtx.fillRect(0, y, 32, 1); }
+            const tex = new THREE.CanvasTexture(sideCanvas);
+            tex.wrapS = THREE.RepeatWrapping;
+            tex.wrapT = THREE.RepeatWrapping;
+            tex.repeat.set(1, 8);
+            return tex;
+        }
+
+        function update3DTexture() {
+            if (!is3DInitialized) return;
+            if (padTopTexture) { padTopTexture.needsUpdate = true; }
+            const theme = themes[currentTheme];
+            if (stickerPadMesh && theme) {
+                const oldSideTexture = padSideTexture;
+                padSideTexture = getPadSideTexture(theme.end);
+                stickerPadMesh.material[0].map = padSideTexture;
+                stickerPadMesh.material[1].map = padSideTexture;
+                stickerPadMesh.material[4].map = padSideTexture;
+                stickerPadMesh.material[5].map = padSideTexture;
+                stickerPadMesh.material[3].color.set(theme.end);
+                if (oldSideTexture) oldSideTexture.dispose();
+                for (let i = 0; i < 6; i++) { stickerPadMesh.material[i].needsUpdate = true; }
+            }
+        }
+
+        function animate() {
+            if (!is3DInitialized || currentMode !== '3d') return;
+            requestAnimationFrame(animate);
+            controls.update();
+            renderer.render(scene, camera);
+        }
+
+        function handle3DResize() {
+            if (!is3DInitialized) return;
+            const container = document.getElementById('container-3d');
+            const width = container.clientWidth;
+            const height = container.clientHeight || 550;
+            camera.aspect = width / height;
+            camera.updateProjectionMatrix();
+            renderer.setSize(width, height);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const grid = document.getElementById('sticker-grid');
+            const template = document.getElementById('sticker-template');
+
+            grid.innerHTML = '';
+            for (let i = 0; i < 6; i++) {
+                grid.appendChild(template.content.cloneNode(true));
+            }
+
+            initKonva();
+
+            const themeButtons = document.querySelectorAll('.theme-btn');
+            themeButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    themeButtons.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    const themeName = btn.dataset.theme;
+                    currentTheme = themeName;
+                    const theme = themes[themeName];
+                    if (theme) {
+                        document.documentElement.style.setProperty('--sticker-bg-start', theme.start);
+                        document.documentElement.style.setProperty('--sticker-bg-end', theme.end);
+                        document.documentElement.style.setProperty('--brand-primary', theme.primary);
+                        document.documentElement.style.setProperty('--brand-secondary', theme.secondary);
+                        document.documentElement.style.setProperty('--watermark-opacity', theme.watermark);
+                        recolorStageElements(theme.primary, theme.secondary);
+                    }
+                    drawBackground();
+                    updateLogoSource();
+                    updateQRSource();
+                    triggerRender();
+                });
+            });
+
+            const logoColorButtons = document.querySelectorAll('[data-logo-color]');
+            logoColorButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    logoColorButtons.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    currentLogoColor = btn.dataset.logoColor;
+                    updateLogoSource();
+                    triggerRender();
+                });
+            });
+
+            const templateButtons = document.querySelectorAll('.template-btn');
+            templateButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    templateButtons.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    const styleName = btn.dataset.style;
+                    currentStyle = styleName;
+                    grid.className = 'sticker-grid';
+                    grid.classList.add(`style-${styleName}`);
+                    drawBackground();
+                    updateLogoSource();
+                    updateQRSource();
+                    triggerRender();
+                });
+            });
+
+            const borderToggle = document.getElementById('toggle-borders');
+            borderToggle.addEventListener('click', () => {
+                borderToggle.classList.toggle('active');
+                if (borderToggle.classList.contains('active')) {
+                    document.documentElement.style.setProperty('--sticker-border-style', '0.12mm solid rgba(90, 99, 46, 0.25)');
+                    showCutLines = true;
+                } else {
+                    document.documentElement.style.setProperty('--sticker-border-style', 'none');
+                    showCutLines = false;
+                }
+                triggerRender();
+            });
+
+            const zoomRange = document.getElementById('zoom-range');
+            const zoomValue = document.getElementById('zoom-value');
+            const a4Page = document.getElementById('a4-page');
+            const editorContainer = document.getElementById('konva-editor-container');
+
+            zoomRange.addEventListener('input', (e) => {
+                const val = e.target.value;
+                zoomValue.textContent = `${val}%`;
+                if (currentMode === '2d') {
+                    a4Page.style.transform = `scale(${val / 100})`;
+                } else if (currentMode === 'editor') {
+                    editorContainer.style.transform = `scale(${val / 100})`;
+                }
+            });
+
+            const btnAddText = document.getElementById('btn-add-text');
+            if (btnAddText) {
+                btnAddText.addEventListener('click', () => {
+                    const theme = themes[currentTheme];
+                    const primaryColor = theme ? theme.primary : '#061b0e';
+                    const textNode = new Konva.Text({
+                        x: 350, y: 400, text: 'نص جديد مزدوج النقر لتعديله',
+                        fontSize: 24, fontFamily: 'Almarai', fill: primaryColor,
+                        align: 'center', width: 300, draggable: true, name: 'custom-text'
+                    });
+                    textNode.on('mousedown touchstart', () => selectNode(textNode));
+                    makeTextEditable(textNode);
+                    elementsLayer.add(textNode);
+                    selectNode(textNode);
+                    triggerRender();
+                });
+            }
+
+            const btnAddLeaf = document.getElementById('btn-add-leaf');
+            if (btnAddLeaf) {
+                btnAddLeaf.addEventListener('click', () => {
+                    const theme = themes[currentTheme];
+                    const primaryColor = theme ? theme.primary : '#061b0e';
+                    const secondaryColor = theme ? theme.secondary : '#5a632e';
+                    const branch = createBotanicalBranchGroup(400, 350, 1.0, 45, primaryColor, secondaryColor);
+                    branch.on('mousedown touchstart', () => selectNode(branch));
+                    elementsLayer.add(branch);
+                    selectNode(branch);
+                    triggerRender();
+                });
+            }
+
+            const btnDeleteSelected = document.getElementById('btn-delete-selected');
+            if (btnDeleteSelected) {
+                btnDeleteSelected.style.opacity = '0.5';
+                btnDeleteSelected.style.pointerEvents = 'none';
+                btnDeleteSelected.addEventListener('click', () => {
+                    const selectedNodes = transformer.nodes();
+                    if (selectedNodes.length > 0) {
+                        selectedNodes[0].destroy();
+                        deselectAll();
+                        triggerRender();
+                    }
+                });
+            }
+
+            const btnModeEditor = document.getElementById('btn-mode-editor');
+            const btnMode2D = document.getElementById('btn-mode-2d');
+            const btnMode3D = document.getElementById('btn-mode-3d');
+            const toolsPanel = document.getElementById('editor-tools-group');
+
+            btnModeEditor.addEventListener('click', () => {
+                if (currentMode === 'editor') return;
+                currentMode = 'editor';
+                btnModeEditor.classList.add('active');
+                btnMode2D.classList.remove('active');
+                btnMode3D.classList.remove('active');
+                editorContainer.style.display = 'block';
+                a4Page.style.display = 'none';
+                document.getElementById('container-3d').style.display = 'none';
+                if (toolsPanel) toolsPanel.style.display = 'flex';
+                deselectAll();
+                triggerRender();
+            });
+
+            btnMode2D.addEventListener('click', () => {
+                if (currentMode === '2d') return;
+                currentMode = '2d';
+                btnMode2D.classList.add('active');
+                btnModeEditor.classList.remove('active');
+                btnMode3D.classList.remove('active');
+                editorContainer.style.display = 'none';
+                a4Page.style.display = 'flex';
+                document.getElementById('container-3d').style.display = 'none';
+                if (toolsPanel) toolsPanel.style.display = 'none';
+                deselectAll();
+                triggerRender();
+            });
+
+            btnMode3D.addEventListener('click', () => {
+                if (currentMode === '3d') return;
+                currentMode = '3d';
+                btnMode3D.classList.add('active');
+                btnModeEditor.classList.remove('active');
+                btnMode2D.classList.remove('active');
+                editorContainer.style.display = 'none';
+                a4Page.style.display = 'none';
+                document.getElementById('container-3d').style.display = 'block';
+                if (toolsPanel) toolsPanel.style.display = 'none';
+                deselectAll();
+                if (!is3DInitialized) { init3D(); } else { animate(); }
+                handle3DResize();
+                triggerRender();
+            });
+
+            const handleResize = () => {
+                const width = window.innerWidth;
+                if (width < 900) {
+                    const previewArea = document.querySelector('.preview-area');
+                    const areaWidth = previewArea.clientWidth - 40;
+                    const ratio = Math.min(0.9, areaWidth / 794);
+                    const percent = Math.round(ratio * 100);
+                    zoomRange.value = percent;
+                    zoomValue.textContent = `${percent}%`;
+                    a4Page.style.transform = `scale(${ratio})`;
+                    editorContainer.style.transform = `scale(${ratio * 1.25})`;
+                } else {
+                    zoomRange.value = 75;
+                    zoomValue.textContent = '75%';
+                    a4Page.style.transform = 'scale(0.75)';
+                    editorContainer.style.transform = 'scale(1)';
+                }
+                if (currentMode === '3d') { handle3DResize(); }
+                if (stage) fitStageIntoParentContainer();
+            };
+            window.addEventListener('resize', handleResize);
+            handleResize();
+        });
+    </script>
+    
+    <svg style="position: absolute; width: 0; height: 0;" width="0" height="0" version="1.1" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+            <filter id="color-brand-primary">
+                <feColorMatrix type="matrix" values="0 0 0 0 0.02353 0 0 0 0 0.10588 0 0 0 0 0.05490 0 0 0 1 0" />
+            </filter>
+            <filter id="color-brand-secondary">
+                <feColorMatrix type="matrix" values="0 0 0 0 0.35294 0 0 0 0 0.38824 0 0 0 0 0.18039 0 0 0 1 0" />
+            </filter>
+            <filter id="color-black">
+                <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0" />
+            </filter>
+        </defs>
+    </svg>
+</body>
+</html>

@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+
+<html dir="rtl" lang="ar"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "error-container": "#ffdad6",
+                    "inverse-primary": "#b4cdb8",
+                    "on-primary": "#ffffff",
+                    "on-tertiary": "#ffffff",
+                    "secondary-fixed-dim": "#c3cc8c",
+                    "inverse-on-surface": "#f0f1f1",
+                    "primary-fixed": "#d0e9d4",
+                    "surface-container-high": "#e8e8e8",
+                    "on-tertiary-container": "#93947f",
+                    "inverse-surface": "#2f3131",
+                    "secondary-fixed": "#dfe8a6",
+                    "on-background": "#1a1c1c",
+                    "on-secondary-fixed": "#191e00",
+                    "on-error": "#ffffff",
+                    "surface-tint": "#4d6453",
+                    "secondary": "#5a632e",
+                    "on-tertiary-fixed-variant": "#474836",
+                    "outline-variant": "#c3c8c1",
+                    "on-surface-variant": "#434843",
+                    "on-surface": "#1a1c1c",
+                    "outline": "#737973",
+                    "on-secondary-container": "#5f6732",
+                    "surface-container-low": "#f3f3f4",
+                    "surface-bright": "#f9f9f9",
+                    "on-secondary-fixed-variant": "#434b18",
+                    "surface-variant": "#e2e2e2",
+                    "background": "#f9f9f9",
+                    "primary": "#061b0e",
+                    "surface": "#f9f9f9",
+                    "on-primary-fixed": "#0b2013",
+                    "tertiary-container": "#2b2d1d",
+                    "on-primary-container": "#819986",
+                    "secondary-container": "#dce5a3",
+                    "tertiary-fixed": "#e4e4cc",
+                    "tertiary": "#17180a",
+                    "surface-container-highest": "#e2e2e2",
+                    "primary-fixed-dim": "#b4cdb8",
+                    "on-primary-fixed-variant": "#364c3c",
+                    "tertiary-fixed-dim": "#c8c8b0",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-dim": "#dadada",
+                    "on-secondary": "#ffffff",
+                    "primary-container": "#1b3022",
+                    "on-tertiary-fixed": "#1b1d0e",
+                    "surface-container": "#eeeeee",
+                    "error": "#ba1a1a",
+                    "on-error-container": "#93000a"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "unit": "8px",
+                    "container-margin-mobile": "20px",
+                    "stack-md": "12px",
+                    "stack-sm": "4px",
+                    "gutter": "16px",
+                    "section-gap": "48px",
+                    "stack-lg": "24px",
+                    "container-margin-desktop": "80px"
+            },
+            "fontFamily": {
+                    "headline-lg": ["Montserrat"],
+                    "display-lg": ["Montserrat"],
+                    "price-tag": ["Montserrat"],
+                    "title-md": ["Montserrat"],
+                    "body-sm": ["Montserrat"],
+                    "label-caps": ["Montserrat"],
+                    "headline-lg-mobile": ["Montserrat"],
+                    "body-lg": ["Montserrat"]
+            },
+            "fontSize": {
+                    "headline-lg": ["32px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                    "display-lg": ["48px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "price-tag": ["18px", {"lineHeight": "1", "fontWeight": "600"}],
+                    "title-md": ["20px", {"lineHeight": "1.4", "fontWeight": "600"}],
+                    "body-sm": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                    "label-caps": ["12px", {"lineHeight": "1", "letterSpacing": "0.1em", "fontWeight": "700"}],
+                    "headline-lg-mobile": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                    "body-lg": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #f9f9f9;
+            font-family: 'Montserrat', sans-serif;
+        }
+        .sidebar-active {
+            background-color: #d0e9d4;
+            color: #0b2013;
+        }
+        .card-shadow {
+            box-shadow: 0px 4px 20px rgba(27, 48, 34, 0.05);
+            border: 1px solid rgba(27, 48, 34, 0.05);
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="flex min-h-screen">
+<!-- SideNavBar -->
+<aside class="hidden md:flex flex-col h-screen py-stack-lg fixed right-0 top-0 w-[280px] bg-primary dark:bg-tertiary-container shadow-sm z-50">
+<div class="px-gutter mb-section-gap">
+<h1 class="text-title-md font-title-md text-on-primary dark:text-on-tertiary-container">GARDEN Admin</h1>
+<p class="text-label-caps text-on-primary/70 dark:text-on-tertiary-container/70 mt-stack-sm">Management Portal</p>
+</div>
+<nav class="flex-1 flex flex-col space-y-1">
+<a class="bg-on-primary-container text-primary-fixed rounded-lg mx-2 my-1 px-4 py-3 flex items-center gap-3 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+<span class="font-label-caps text-label-caps">Dashboard</span>
+</a>
+<a class="text-on-primary/70 dark:text-on-tertiary-container/70 mx-2 my-1 px-4 py-3 flex items-center gap-3 hover:bg-on-primary-fixed-variant/20 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">category</span>
+<span class="font-label-caps text-label-caps">Category Management</span>
+</a>
+<a class="text-on-primary/70 dark:text-on-tertiary-container/70 mx-2 my-1 px-4 py-3 flex items-center gap-3 hover:bg-on-primary-fixed-variant/20 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+<span class="font-label-caps text-label-caps">Product Management</span>
+</a>
+<a class="text-on-primary/70 dark:text-on-tertiary-container/70 mx-2 my-1 px-4 py-3 flex items-center gap-3 hover:bg-on-primary-fixed-variant/20 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-caps text-label-caps">Settings</span>
+</a>
+</nav>
+<div class="mt-auto px-2">
+<a class="text-on-primary/70 dark:text-on-tertiary-container/70 mx-2 my-1 px-4 py-3 flex items-center gap-3 hover:bg-error/20 transition-colors duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-label-caps text-label-caps">Logout</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="flex-1 mr-0 md:mr-[280px] min-h-screen bg-background">
+<!-- TopAppBar -->
+<header class="bg-surface dark:bg-background flex flex-row-reverse justify-between items-center w-full px-container-margin-desktop py-4 max-w-7xl mx-auto sticky top-0 z-40">
+<div class="flex items-center gap-gutter">
+<button class="material-symbols-outlined text-on-surface-variant hover:bg-surface-variant/10 p-2 rounded-full transition-transform scale-95 duration-200">translate</button>
+<div class="flex items-center gap-stack-md">
+<div class="text-right hidden sm:block">
+<p class="font-title-md text-on-surface text-sm">أدمن جاردن</p>
+<p class="font-body-sm text-on-surface-variant text-xs">مدير النظام</p>
+</div>
+<img alt="Restaurant Logo" class="w-10 h-10 rounded-full object-cover border border-outline-variant" data-alt="A professional headshot of a confident male administrator in a high-end hospitality environment. The lighting is soft and cinematic, with a blurred botanical background reflecting a luxury garden restaurant setting. The colors are muted forest greens and warm whites, creating a sophisticated and trustworthy aura for an admin profile." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDeswvfe25fxXwZCzJFpSjqMgwfaFS8e4r_pbBtireCPHXeC7DQMZEY6hV_1WOZpHOnWw3tgD2lbcYGOgrUbQiPftwkj77L_OlA-64SlwRBTbXb2F5ETmPAFc28GUGly3sYXpOmcuFS9bb4zrkqo4EYrbvnnbpdZGf4haMzrPpT8bgHo870wVPM8TlFcDQi3QcM1wZlqX73ePECqqm8TQB1q8r_NHDbtC7Xvi6_RKVpIs57IJ_XsH_q2cYSIBUZXoY7g72e80HEqqT0"/>
+</div>
+</div>
+<div class="flex flex-col">
+<h2 class="font-headline-lg text-headline-lg text-primary dark:text-on-primary-container font-bold">لوحة التحكم</h2>
+<nav class="flex gap-2 text-on-surface-variant font-body-sm text-xs mt-1">
+<span>الرئيسية</span>
+<span>/</span>
+<span class="text-primary font-semibold">نظرة عامة</span>
+</nav>
+</div>
+</header>
+<div class="px-container-margin-desktop py-stack-lg max-w-7xl mx-auto">
+<!-- Stats Grid -->
+<section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-gutter mb-section-gap">
+<!-- Stat Card 1 -->
+<div class="bg-surface-container-lowest p-stack-lg rounded-xl card-shadow flex flex-col items-center text-center">
+<div class="w-12 h-12 rounded-full bg-secondary-container flex items-center justify-center mb-stack-md">
+<span class="material-symbols-outlined text-on-secondary-container">category</span>
+</div>
+<p class="font-label-caps text-on-surface-variant">إجمالي التصنيفات</p>
+<h3 class="font-display-lg text-display-lg text-primary mt-stack-sm">7</h3>
+</div>
+<!-- Stat Card 2 -->
+<div class="bg-surface-container-lowest p-stack-lg rounded-xl card-shadow flex flex-col items-center text-center">
+<div class="w-12 h-12 rounded-full bg-primary-fixed flex items-center justify-center mb-stack-md">
+<span class="material-symbols-outlined text-on-primary-fixed-variant">inventory_2</span>
+</div>
+<p class="font-label-caps text-on-surface-variant">إجمالي المنتجات</p>
+<h3 class="font-display-lg text-display-lg text-primary mt-stack-sm">42</h3>
+</div>
+<!-- Stat Card 3 -->
+<div class="bg-surface-container-lowest p-stack-lg rounded-xl card-shadow flex flex-col items-center text-center">
+<div class="w-12 h-12 rounded-full bg-secondary-fixed flex items-center justify-center mb-stack-md">
+<span class="material-symbols-outlined text-secondary">visibility</span>
+</div>
+<p class="font-label-caps text-on-surface-variant">المنتجات الظاهرة</p>
+<h3 class="font-display-lg text-display-lg text-secondary mt-stack-sm">38</h3>
+</div>
+<!-- Stat Card 4 -->
+<div class="bg-surface-container-lowest p-stack-lg rounded-xl card-shadow flex flex-col items-center text-center">
+<div class="w-12 h-12 rounded-full bg-error-container flex items-center justify-center mb-stack-md">
+<span class="material-symbols-outlined text-on-error-container">visibility_off</span>
+</div>
+<p class="font-label-caps text-on-surface-variant">المنتجات المخفية</p>
+<h3 class="font-display-lg text-display-lg text-error mt-stack-sm">4</h3>
+</div>
+</section>
+<!-- Main Dashboard Layout (Asymmetric Bento) -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-gutter items-start">
+<!-- Chart Area (Wide) -->
+<div class="lg:col-span-2 bg-surface-container-lowest p-stack-lg rounded-xl card-shadow min-h-[400px]">
+<div class="flex justify-between items-center mb-stack-lg">
+<h4 class="font-title-md text-title-md text-primary">تفاعل القائمة</h4>
+<div class="flex gap-2">
+<span class="px-3 py-1 bg-surface-container text-xs rounded-full font-label-caps">أسبوعي</span>
+<span class="px-3 py-1 bg-primary text-white text-xs rounded-full font-label-caps">شهري</span>
+</div>
+</div>
+<!-- Mock Engagement Chart Visual -->
+<div class="relative h-64 w-full flex items-end gap-4 px-4 overflow-hidden">
+<div class="absolute inset-0 flex flex-col justify-between pointer-events-none opacity-10">
+<div class="border-t border-primary h-0 w-full"></div>
+<div class="border-t border-primary h-0 w-full"></div>
+<div class="border-t border-primary h-0 w-full"></div>
+<div class="border-t border-primary h-0 w-full"></div>
+</div>
+<div class="flex-1 bg-primary-fixed-dim rounded-t-lg transition-all duration-700 h-[60%] hover:h-[65%]"></div>
+<div class="flex-1 bg-primary-fixed-dim rounded-t-lg transition-all duration-700 h-[85%] hover:h-[90%]"></div>
+<div class="flex-1 bg-primary-container rounded-t-lg transition-all duration-700 h-[45%] hover:h-[50%]"></div>
+<div class="flex-1 bg-primary-fixed-dim rounded-t-lg transition-all duration-700 h-[70%] hover:h-[75%]"></div>
+<div class="flex-1 bg-secondary-fixed-dim rounded-t-lg transition-all duration-700 h-[95%] hover:h-[100%]"></div>
+<div class="flex-1 bg-primary-fixed-dim rounded-t-lg transition-all duration-700 h-[55%] hover:h-[60%]"></div>
+<div class="flex-1 bg-primary-fixed-dim rounded-t-lg transition-all duration-700 h-[80%] hover:h-[85%]"></div>
+</div>
+<div class="mt-stack-lg flex justify-between px-4 text-on-surface-variant font-label-caps text-[10px]">
+<span>أسبوع 1</span>
+<span>أسبوع 2</span>
+<span>أسبوع 3</span>
+<span>أسبوع 4</span>
+</div>
+</div>
+<!-- Recent Activity (Narrow) -->
+<div class="bg-surface-container-lowest p-stack-lg rounded-xl card-shadow">
+<h4 class="font-title-md text-title-md text-primary mb-stack-lg">آخر النشاطات</h4>
+<div class="space-y-stack-md">
+<div class="flex gap-stack-md items-start">
+<div class="mt-1 w-2 h-2 rounded-full bg-primary flex-shrink-0"></div>
+<div>
+<p class="font-body-sm text-sm text-on-surface">إضافة صنف جديد: <b>"سبانخ مطبوخة"</b></p>
+<p class="text-[10px] text-on-surface-variant font-label-caps mt-1">منذ ساعتين</p>
+</div>
+</div>
+<div class="flex gap-stack-md items-start">
+<div class="mt-1 w-2 h-2 rounded-full bg-secondary flex-shrink-0"></div>
+<div>
+<p class="font-body-sm text-sm text-on-surface">تعديل سعر: <b>"قهوة جاردن"</b></p>
+<p class="text-[10px] text-on-surface-variant font-label-caps mt-1">منذ 5 ساعات</p>
+</div>
+</div>
+<div class="flex gap-stack-md items-start">
+<div class="mt-1 w-2 h-2 rounded-full bg-error flex-shrink-0"></div>
+<div>
+<p class="font-body-sm text-sm text-on-surface">تم إخفاء صنف: <b>"كيكة العسل"</b></p>
+<p class="text-[10px] text-on-surface-variant font-label-caps mt-1">أمس</p>
+</div>
+</div>
+<div class="flex gap-stack-md items-start">
+<div class="mt-1 w-2 h-2 rounded-full bg-primary flex-shrink-0"></div>
+<div>
+<p class="font-body-sm text-sm text-on-surface">تغيير صورة قسم الحلويات</p>
+<p class="text-[10px] text-on-surface-variant font-label-caps mt-1">منذ يومين</p>
+</div>
+</div>
+</div>
+<button class="w-full mt-stack-lg py-2 border border-outline-variant text-primary font-label-caps text-xs rounded-lg hover:bg-surface-container-low transition-colors">
+                        عرض جميع النشاطات
+                    </button>
+</div>
+</div>
+<!-- Quick Actions Section -->
+<section class="mt-section-gap">
+<h4 class="font-title-md text-title-md text-primary mb-stack-lg">إجراءات سريعة</h4>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
+<button class="flex items-center justify-between p-stack-lg bg-primary text-on-primary rounded-xl hover:opacity-90 transition-opacity">
+<span class="font-title-md text-sm">إضافة منتج جديد</span>
+<span class="material-symbols-outlined">add_circle</span>
+</button>
+<button class="flex items-center justify-between p-stack-lg bg-secondary-container text-on-secondary-container rounded-xl hover:opacity-90 transition-opacity">
+<span class="font-title-md text-sm">تحميل تقرير الجرد</span>
+<span class="material-symbols-outlined">download</span>
+</button>
+<button class="flex items-center justify-between p-stack-lg bg-surface-container-highest text-primary rounded-xl hover:bg-surface-variant transition-colors">
+<span class="font-title-md text-sm">تعديل معلومات المتجر</span>
+<span class="material-symbols-outlined">storefront</span>
+</button>
+</div>
+</section>
+</div>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex flex-row-reverse justify-around items-center px-2 py-unit pb-safe md:hidden bg-surface-container-lowest dark:bg-surface-container-highest shadow-lg rounded-t-xl">
+<a class="flex flex-col items-center justify-center bg-secondary-container dark:bg-secondary text-on-secondary-container dark:text-on-secondary rounded-xl px-4 py-2 active:scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+<span class="font-body-sm text-body-sm">Dashboard</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant px-4 py-2 active:scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined">category</span>
+<span class="font-body-sm text-body-sm">Categories</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant px-4 py-2 active:scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+<span class="font-body-sm text-body-sm">Products</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant px-4 py-2 active:scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-body-sm text-body-sm">Settings</span>
+</a>
+</nav>
+<script>
+        // Micro-interaction for the chart bars
+        document.querySelectorAll('.flex-1.bg-primary-fixed-dim, .flex-1.bg-primary-container, .flex-1.bg-secondary-fixed-dim').forEach(bar => {
+            bar.addEventListener('mouseover', () => {
+                bar.style.filter = 'brightness(1.1)';
+            });
+            bar.addEventListener('mouseleave', () => {
+                bar.style.filter = 'brightness(1)';
+            });
+        });
+
+        // Simple Arabic number localized formatting simulation
+        console.log("Admin Dashboard Loaded - Garden Premium System");
+    </script>
+</body></html>
