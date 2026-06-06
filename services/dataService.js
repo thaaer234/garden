@@ -77,7 +77,7 @@ const FALLBACK_DATA = {
             name: 'كورتادو كلاسيك',
             price: 18,
             category_id: 1,
-            image_url: 'https://images.unsplash.com/photo-1577968897966-3d4325b36b61?w=500',
+            image_url: 'https://images.unsplash.com/photo-1534778101976-62847782c213?w=500',
             description: 'قهوة مركزة مع حليب مبخر غني',
             sort_order: 6,
             available: true
@@ -87,7 +87,7 @@ const FALLBACK_DATA = {
             name: 'كيكة الفستق والورد',
             price: 32,
             category_id: 4,
-            image_url: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=500',
+            image_url: 'https://images.unsplash.com/photo-1606890737304-57a1ca8a5b62?w=500',
             description: 'طبقات من كيكة الفستق مغطاة بكريمة الورد الطبيعي',
             sort_order: 7,
             available: true
@@ -107,7 +107,7 @@ const FALLBACK_DATA = {
             name: 'فرنش توست بالعسل والتوت',
             price: 45,
             category_id: 4,
-            image_url: 'https://images.unsplash.com/photo-1567234669003-dce7a7a88821?w=500',
+            image_url: 'https://images.unsplash.com/photo-1484723091739-30a097e8f929?w=500',
             description: 'خبز البريوش الطازج والمحمص يقدم بلمسة من العسل العضوي والتوت',
             sort_order: 9,
             available: true
