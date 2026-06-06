@@ -123,11 +123,96 @@ class DataService {
         this.products = [];
         this.settings = {};
         this.initialized = false;
+        this.useFirebase = false;
+        this.db = null;
     }
 
-    // Initialize data from localStorage or fetch Excel files
+    isFirebaseEnabled() {
+        return typeof firebase !== 'undefined' && 
+               typeof firebaseConfig !== 'undefined' && 
+               firebaseConfig.apiKey && 
+               firebaseConfig.apiKey !== 'YOUR_API_KEY';
+    }
+
+    // Initialize data from Firebase Firestore, localStorage or fetch Excel files
     async init() {
         if (this.initialized) return;
+
+        if (this.isFirebaseEnabled()) {
+            try {
+                // Initialize Firebase if not already initialized
+                if (firebase.apps.length === 0) {
+                    firebase.initializeApp(firebaseConfig);
+                }
+                this.db = firebase.firestore();
+                this.useFirebase = true;
+                console.log('Firebase Firestore initialized successfully.');
+
+                // Fetch Categories
+                const categoriesSnapshot = await this.db.collection('categories').get();
+                if (categoriesSnapshot.empty) {
+                    console.log('Firestore categories empty. Seeding defaults...');
+                    for (const cat of FALLBACK_DATA.categories) {
+                        await this.db.collection('categories').doc(String(cat.id)).set(cat);
+                    }
+                    this.categories = [...FALLBACK_DATA.categories];
+                } else {
+                    this.categories = [];
+                    categoriesSnapshot.forEach(doc => {
+                        const data = doc.data();
+                        this.categories.push({
+                            id: Number(data.id),
+                            name: String(data.name),
+                            icon: String(data.icon || 'coffee'),
+                            sort_order: Number(data.sort_order || 99)
+                        });
+                    });
+                }
+
+                // Fetch Products
+                const productsSnapshot = await this.db.collection('products').get();
+                if (productsSnapshot.empty) {
+                    console.log('Firestore products empty. Seeding defaults...');
+                    for (const prod of FALLBACK_DATA.products) {
+                        await this.db.collection('products').doc(String(prod.id)).set(prod);
+                    }
+                    this.products = [...FALLBACK_DATA.products];
+                } else {
+                    this.products = [];
+                    productsSnapshot.forEach(doc => {
+                        const data = doc.data();
+                        this.products.push({
+                            id: Number(data.id),
+                            name: String(data.name),
+                            price: Number(data.price),
+                            category_id: Number(data.category_id),
+                            image_url: String(data.image_url || ''),
+                            description: String(data.description || ''),
+                            sort_order: Number(data.sort_order || 99),
+                            available: data.available === true || String(data.available).trim().toUpperCase() === 'TRUE' || data.available === 1
+                        });
+                    });
+                }
+
+                // Fetch Settings
+                const settingsDoc = await this.db.collection('settings').doc('general').get();
+                if (!settingsDoc.exists) {
+                    console.log('Firestore settings general empty. Seeding defaults...');
+                    await this.db.collection('settings').doc('general').set(FALLBACK_DATA.settings);
+                    this.settings = { ...FALLBACK_DATA.settings };
+                } else {
+                    this.settings = settingsDoc.data();
+                }
+
+                this.saveToLocalStorage();
+                this.initialized = true;
+                this.applyThemeColor();
+                return;
+            } catch (e) {
+                console.warn('Firebase connection failed, falling back to local files:', e.message);
+                this.useFirebase = false;
+            }
+        }
 
         const hasLocalData = localStorage.getItem(STORAGE_KEYS.PRODUCTS) &&
                              localStorage.getItem(STORAGE_KEYS.CATEGORIES) &&
@@ -226,7 +311,7 @@ class DataService {
     }
 
     getCategoryById(id) {
-        return this.categories.find(c => c.id === id);
+        return this.categories.find(c => c.id === Number(id));
     }
 
     addCategory(category) {
@@ -239,6 +324,12 @@ class DataService {
         };
         this.categories.push(newCat);
         this.saveToLocalStorage();
+
+        if (this.useFirebase && this.db) {
+            this.db.collection('categories').doc(String(nextId)).set(newCat)
+                .catch(err => console.error('Firestore write error:', err));
+        }
+
         return newCat;
     }
 
@@ -251,6 +342,12 @@ class DataService {
                 id: Number(id) // ensure ID is preserved
             };
             this.saveToLocalStorage();
+
+            if (this.useFirebase && this.db) {
+                this.db.collection('categories').doc(String(id)).update(updatedFields)
+                    .catch(err => console.error('Firestore update error:', err));
+            }
+
             return this.categories[catIndex];
         }
         return null;
@@ -258,9 +355,19 @@ class DataService {
 
     deleteCategory(id) {
         this.categories = this.categories.filter(c => c.id !== Number(id));
-        // Optional: Also delete or orphan products belonging to this category
         this.products = this.products.filter(p => p.category_id !== Number(id));
         this.saveToLocalStorage();
+
+        if (this.useFirebase && this.db) {
+            this.db.collection('categories').doc(String(id)).delete()
+                .catch(err => console.error('Firestore delete error:', err));
+            // Orphaned products in firebase should be handled
+            this.db.collection('products').where('category_id', '==', Number(id)).get().then(snapshot => {
+                snapshot.forEach(doc => {
+                    doc.ref.delete().catch(err => console.error(err));
+                });
+            });
+        }
     }
 
     // --- PRODUCTS CRUD ---
@@ -292,21 +399,37 @@ class DataService {
         };
         this.products.push(newProd);
         this.saveToLocalStorage();
+
+        if (this.useFirebase && this.db) {
+            this.db.collection('products').doc(String(nextId)).set(newProd)
+                .catch(err => console.error('Firestore write error:', err));
+        }
+
         return newProd;
     }
 
     updateProduct(id, updatedFields) {
         const prodIndex = this.products.findIndex(p => p.id === Number(id));
         if (prodIndex > -1) {
+            const parsedFields = {
+                ...updatedFields,
+                id: Number(id)
+            };
+            if (updatedFields.price !== undefined) parsedFields.price = Number(updatedFields.price);
+            if (updatedFields.category_id !== undefined) parsedFields.category_id = Number(updatedFields.category_id);
+            if (updatedFields.sort_order !== undefined) parsedFields.sort_order = Number(updatedFields.sort_order);
+
             this.products[prodIndex] = {
                 ...this.products[prodIndex],
-                ...updatedFields,
-                id: Number(id),
-                price: Number(updatedFields.price !== undefined ? updatedFields.price : this.products[prodIndex].price),
-                category_id: Number(updatedFields.category_id !== undefined ? updatedFields.category_id : this.products[prodIndex].category_id),
-                sort_order: Number(updatedFields.sort_order !== undefined ? updatedFields.sort_order : this.products[prodIndex].sort_order)
+                ...parsedFields
             };
             this.saveToLocalStorage();
+
+            if (this.useFirebase && this.db) {
+                this.db.collection('products').doc(String(id)).update(parsedFields)
+                    .catch(err => console.error('Firestore update error:', err));
+            }
+
             return this.products[prodIndex];
         }
         return null;
@@ -315,6 +438,11 @@ class DataService {
     deleteProduct(id) {
         this.products = this.products.filter(p => p.id !== Number(id));
         this.saveToLocalStorage();
+
+        if (this.useFirebase && this.db) {
+            this.db.collection('products').doc(String(id)).delete()
+                .catch(err => console.error('Firestore delete error:', err));
+        }
     }
 
     // --- SETTINGS CRUD ---
@@ -329,6 +457,12 @@ class DataService {
         };
         this.saveToLocalStorage();
         this.applyThemeColor();
+
+        if (this.useFirebase && this.db) {
+            this.db.collection('settings').doc('general').set(this.settings)
+                .catch(err => console.error('Firestore settings write error:', err));
+        }
+
         return this.settings;
     }
 
