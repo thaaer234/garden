@@ -27,7 +27,7 @@ const FALLBACK_DATA = {
             name: 'فلات وايت كلاسيك',
             price: 22,
             category_id: 1,
-            image_url: 'https://images.unsplash.com/photo-1577968897966-3d4325b36b61?auto=format&fit=crop&w=500&q=80',
+            image_url: 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=500&q=80',
             description: 'حبوب مختصة محمصة بعناية مع حليب مبخر غني',
             sort_order: 1,
             available: true
@@ -77,7 +77,7 @@ const FALLBACK_DATA = {
             name: 'كورتادو كلاسيك',
             price: 18,
             category_id: 1,
-            image_url: 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=500&q=80',
+            image_url: 'https://images.unsplash.com/photo-1577968897966-3d4325b36b61?auto=format&fit=crop&w=500&q=80',
             description: 'قهوة مركزة مع حليب مبخر غني',
             sort_order: 6,
             available: true
@@ -117,7 +117,7 @@ const FALLBACK_DATA = {
             name: 'متة أرجنتينية فاخرة',
             price: 15,
             category_id: 1,
-            image_url: 'https://images.pexels.com/photos/5945848/pexels-photo-5945848.jpeg?auto=compress&cs=tinysrgb&w=500',
+            image_url: 'https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=500&q=80',
             description: 'متة أرجنتينية تقليدية تقدم بالقرعة والمصاصة الخاصة مع اختيارك من الأعشاب الطازجة والسكر',
             sort_order: 10,
             available: true
@@ -137,7 +137,7 @@ const FALLBACK_DATA = {
             name: 'شاي إنجليزي فاخر بالنعناع',
             price: 10,
             category_id: 1,
-            image_url: 'https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=500&q=80',
+            image_url: 'https://images.unsplash.com/photo-1597481499750-3e6b22637e12?auto=format&fit=crop&w=500&q=80',
             description: 'شاي أسود منتقى بعناية يقدم مع النعناع الطازج أو الليمون',
             sort_order: 12,
             available: true
@@ -177,7 +177,7 @@ const FALLBACK_DATA = {
             name: 'عصير ليمون بالنعناع مثلج',
             price: 15,
             category_id: 3,
-            image_url: 'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=500&q=80',
+            image_url: 'https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?auto=format&fit=crop&w=500&q=80',
             description: 'عصير ليمون طازج ومخفوق مع أوراق النعناع الخضراء والثلج المجروش',
             sort_order: 16,
             available: true
@@ -227,7 +227,7 @@ const FALLBACK_DATA = {
             name: 'نرجيلة تفاحتين فاخر كلاسيك',
             price: 30,
             category_id: 7,
-            image_url: 'https://images.pexels.com/photos/11091565/pexels-photo-11091565.jpeg?auto=compress&cs=tinysrgb&w=500',
+            image_url: 'https://images.unsplash.com/photo-1527156279123-eedbf66aa0f3?auto=format&fit=crop&w=500&q=80',
             description: 'أرجيلة بنكهة التفاحتين الكلاسيكية الممتازة والمعتقة بخلطة غاردن الخاصة',
             sort_order: 21,
             available: true
@@ -237,7 +237,7 @@ const FALLBACK_DATA = {
             name: 'نرجيلة ليمون ونعناع منعش',
             price: 30,
             category_id: 7,
-            image_url: 'https://images.pexels.com/photos/4038868/pexels-photo-4038868.jpeg?auto=compress&cs=tinysrgb&w=500',
+            image_url: 'https://images.unsplash.com/photo-1608797178974-15b35a61d121?auto=format&fit=crop&w=500&q=80',
             description: 'أرجيلة بنكهة الليمون والنعناع المنعشة، مثالية للأجواء الصيفية',
             sort_order: 22,
             available: true
@@ -247,7 +247,7 @@ const FALLBACK_DATA = {
             name: 'نرجيلة علكة ونعناع بارد',
             price: 30,
             category_id: 7,
-            image_url: 'https://images.pexels.com/photos/11091565/pexels-photo-11091565.jpeg?auto=compress&cs=tinysrgb&w=500',
+            image_url: 'https://images.unsplash.com/photo-1527156360814-c4b69dcf42f0?auto=format&fit=crop&w=500&q=80',
             description: 'أرجيلة بنكهة العلكة الحلوة مع لمسة باردة من النعناع',
             sort_order: 23,
             available: true
@@ -297,7 +297,7 @@ const FALLBACK_DATA = {
             name: 'كبة مشوية فاخرة باللحم والدهن',
             price: 28,
             category_id: 6,
-            image_url: 'https://images.pexels.com/photos/12419159/pexels-photo-12419159.jpeg?auto=compress&cs=tinysrgb&w=500',
+            image_url: 'https://images.unsplash.com/photo-1608039829572-78524f79c4c7?auto=format&fit=crop&w=500&q=80',
             description: 'أقراص كبة مشوية على الفحم محشوة باللحم المفروم والمكسرات والدهن البلدي',
             sort_order: 28,
             available: true
