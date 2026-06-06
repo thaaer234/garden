@@ -278,7 +278,7 @@ function renderProductsGrid(categoryId = 'all', searchQuery = '') {
 
         let priceHtml = '';
         if (prod.available) {
-            priceHtml = `<span class="card-price">${prod.price} ر.س</span>`;
+            priceHtml = `<span class="card-price">${prod.price} ل.س</span>`;
         } else {
             priceHtml = `<span class="card-price unavailable">غير متوفر حاليا</span>`;
         }
@@ -461,7 +461,7 @@ function setupEvents() {
             
             const priceHeading = document.getElementById('modal-product-price-heading');
             if (prod.available) {
-                priceHeading.textContent = `${prod.price} ر.س`;
+                priceHeading.textContent = `${prod.price} ل.س`;
                 priceHeading.style.color = 'var(--color-primary)';
                 priceHeading.style.backgroundColor = 'transparent';
                 priceHeading.style.padding = '0';

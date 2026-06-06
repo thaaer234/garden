@@ -239,7 +239,7 @@ function setupProductsPage() {
                         : `<span class="status-badge unavailable"><span class="dot"></span>غير متوفر</span>`
                     }
                 </td>
-                <td class="card-price" style="font-weight: 600;">${prod.price} ر.س</td>
+                <td class="card-price" style="font-weight: 600;">${prod.price} ل.س</td>
                 <td>
                     <div class="action-buttons" style="padding-left: 8px;">
                         <button class="action-btn edit-prod-btn" data-id="${prod.id}" title="تعديل">

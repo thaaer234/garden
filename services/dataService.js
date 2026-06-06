@@ -16,7 +16,9 @@ const FALLBACK_DATA = {
         { id: 1, name: 'المشروبات الساخنة', icon: 'coffee', sort_order: 1 },
         { id: 2, name: 'المشروبات الباردة', icon: 'icecream', sort_order: 2 },
         { id: 3, name: 'العصائر الطبيعية', icon: 'local_bar', sort_order: 3 },
-        { id: 4, name: 'الحلويات', icon: 'cake', sort_order: 4 }
+        { id: 4, name: 'الحلويات', icon: 'cake', sort_order: 4 },
+        { id: 5, name: 'المأكولات', icon: 'flatware', sort_order: 5 },
+        { id: 6, name: 'الأراجيل', icon: 'local_fire_department', sort_order: 6 }
     ],
     products: [
         {
@@ -24,7 +26,7 @@ const FALLBACK_DATA = {
             name: 'فلات وايت كلاسيك',
             price: 22,
             category_id: 1,
-            image_url: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCnOhxqJRVEj532m2oZ9pDotI6jBDiuNAHL0QySz01pvWMGmKSI_Dok3kqDGKES5ZpzLn0GE9-8gYfstEryt0lDukd3WIApYBn1Lu1XlA0IjtDZYfPDG4l6AfbjE9M_JqIUmwV-kgbW-s2ac8rDuVHad6b_Wj8mCmlxlxtKnUDBNgvkhhI8SdQ5ioIVbrVIEp8Rt80g2fuI2L5st4usPpL5qLQ-AGV4TIlPyFL1-z6OF4xVdbUP3WIhWebk233I8IcuUZKwmu3fo6qE',
+            image_url: 'https://images.unsplash.com/photo-1577968897966-3d4325b36b61?w=400',
             description: 'حبوب مختصة محمصة بعناية مع حليب مبخر غني',
             sort_order: 1,
             available: true
@@ -34,7 +36,7 @@ const FALLBACK_DATA = {
             name: 'آيس لاتيه',
             price: 18,
             category_id: 2,
-            image_url: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBHErX8pF6F_1gyx7fRGRU3UYjdzHEkw2c3nIX1OWfc9_6jbSrcXWjjK9sMLAHOr4lItTUnpNFdEjg03irmVEXbjjbMl4m5OEonfnPURmKlLQSLRJI7hvCePQEhVYoIUhBKSIjxuJNqV42IuXJF7NraH57iJRWdNbUz3vQsSjzQrr-s-ORBurhJ0uvRktR8DO5xlj_jfMNEFUKEYgOn6mOq1QbfpN2nt2bmT4JCnmfB-qN0TDjuWPY6v6p2J5gxglr2HYm-Y68X3U9G',
+            image_url: 'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=400',
             description: 'حبوب بن مختارة بعناية مع حليب بارد وثلج',
             sort_order: 2,
             available: true
@@ -44,7 +46,7 @@ const FALLBACK_DATA = {
             name: 'كيكة العسل',
             price: 25,
             category_id: 4,
-            image_url: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDDLQA4i0KeOF7p4TYvwWfFHRTpfxtmXq7q_NRYcnWkC5-KmDewdgOJyyLDn10ZQfxjESozCQsMh3DzuitvSvQjoCNTgSH9ARb0EWugi5-uYXXzgOdK6WnFLl3-yXiJIuIWIRcuUIh-vITyrqYPJMnM12HWmhI3LPRPLENtveJpoTUvxnV5UJbqHRIvx6DXAaKi9eEz2NJ4dMoxWehiY7THwmT-B4Z6_HuV5XxWhpXaUU_XdE-lcSAC5PyNRVUDlCf3iTaXphQ3CPVK',
+            image_url: 'https://images.unsplash.com/photo-1587314168485-3236d6710814?w=400',
             description: 'كيكة العسل الروسية الهشة بطبقات الكريمة الغنية',
             sort_order: 3,
             available: true
@@ -54,7 +56,7 @@ const FALLBACK_DATA = {
             name: 'عصير برتقال طازج',
             price: 15,
             category_id: 3,
-            image_url: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDBXvFHdiYN7K5Dw4kEc3hOLUxmAfpjNyki0W33UZxR4V_JdO7z-OFcvyxVENMUB-JUZGCoQSIi7sdrOpzzLt4cLtqzsIKE58bJy94KJNKAklenASHOIsCMPz6-eAfK1zmZ9663DejVKxe3oy07bsJxzdAGLUka1ZOQjMLTrMqwzlaEL7uX1eoS725S7FU1CA6i4Nz0_vZXW7l6FBb6N5tGeCSU9mNyVXZ6jl247nF_xjEojjt4rfuZWjQHZVp-i7nRQGDeUHUHBdJ5',
+            image_url: 'https://images.unsplash.com/photo-1613478223719-2ab802602423?w=400',
             description: 'عصير برتقال طازج معصور بارداً يومياً',
             sort_order: 4,
             available: true
@@ -64,7 +66,7 @@ const FALLBACK_DATA = {
             name: 'V60 كولومبي',
             price: 28,
             category_id: 1,
-            image_url: 'https://lh3.googleusercontent.com/aida-public/AB6AXuABFJWhFZBfLC30TJn9woAHS9gfGZF6FKpxmNIQrIib54XOQV4gIIxUDkGJiFujKC2djX61NR7-RDSHW9V6JwBCYLRBwT5Ir2Cj29t_9lrGZ1Q5_rb7o6uRf7i1I0OSY2mKZV99cBzLNGGMrKxBw1GRk5IX0ovwK_w2EQR0CNe5ZgwULEv2N-hi7ypOCCKCxDS1reXZSAsVQWGzNRsZw9crdvW_CIOrI3FPKFgHtro_Ulpk4tFK3edYK8dF5ltpWUoB38U_X-xV4fHw',
+            image_url: 'https://images.unsplash.com/photo-1541167760496-1628856ab772?w=400',
             description: 'قهوة مقطرة كولومبية فاخرة بنكهات حمضية متوازنة',
             sort_order: 5,
             available: true
@@ -74,7 +76,7 @@ const FALLBACK_DATA = {
             name: 'كورتادو كلاسيك',
             price: 18,
             category_id: 1,
-            image_url: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBaQgQE9nTfEBYIhX8hOryVU3cZWU33OW0ddYo-QJKw6ZBGEWzKor3kbcT7Lk60S_jMDPi58IrwlEGedXIR9NIw85rs-HCYH1GWFi_hkKs76I26JVJaGz3DM6zGg5KWk7TxBLW8dcMR8Ond9U8tJB1MucQ4CUOlDZJdnWhywIrBD3La6A1pl2p-sM98Ocbnscqna1ophJeyN13pj9XeZJDmPjA5eg2X6cK4nyFkGjsygG7COkgMF6DcGZVJvaGrm5VA-jbk898J2w7T',
+            image_url: 'https://images.unsplash.com/photo-1577968897966-3d4325b36b61?w=400',
             description: 'قهوة مركزة مع حليب مبخر غني',
             sort_order: 6,
             available: true
@@ -84,7 +86,7 @@ const FALLBACK_DATA = {
             name: 'كيكة الفستق والورد',
             price: 32,
             category_id: 4,
-            image_url: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCQlag-sP07kReGrdZiFF0pfawNWj7fCZkXO7L6vXzWsqOHq-jqys3J3-0so5ZukRbEPESgIzd-xa-a5jafWSeMepU5vp-KIv1TMBezUzvsU8eekE9TVQNykG55VZoTAHrdZ8kylYO8UjQYPnglJRcOwdgNle24kvcWDeIluQku0Tz-iJI1FtszROTHw4VXVhW5Mbu5jcnRO24sR-046G1blHByD6HePoI7YE7TNo_QzOixMPVrzLCRQclbF3CHjVRIsp8-CK0JHLAb',
+            image_url: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=400',
             description: 'طبقات من كيكة الفستق مغطاة بكريمة الورد الطبيعي',
             sort_order: 7,
             available: true
@@ -94,19 +96,159 @@ const FALLBACK_DATA = {
             name: 'ماتشا لاتيه عضوي',
             price: 24,
             category_id: 2,
-            image_url: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBaL36lCaYjMTR-nT5UmvU0FxvZ2yrTpDKsRdvGXr1asbAPQIndhJrmOvBoQA04_M1ltOyAPQGoS8jQ3e_huF2kqLhEOpeDAfTsF0g82mdA1YMEg6EjyugB3tFQf_MacZ7yP8xztK4tPvBQ8J_ehM5fsvfLIICYDkg4544_-YfyQXdOfyzD0meiqiRSVGjmvpniKzvoAxhvAY-IdaYY_5hP6MvXznQvz3en8v7oHWUvYmmR1BxQFiQiofJoCGBFHGwKP65OWYH9xGKo',
+            image_url: 'https://images.unsplash.com/photo-1536256263959-770b48d82b0a?w=400',
             description: 'شاي الماتشا الياباني العضوي الفاخر المخفوق مع الحليب',
             sort_order: 8,
-            available: false
+            available: true
         },
         {
             id: 9,
             name: 'فرنش توست بالعسل',
             price: 45,
             category_id: 4,
-            image_url: 'https://lh3.googleusercontent.com/aida-public/AB6AXuClm-ZwHmH_cf1iZT0TmPg52_cnh06c1SLWnSeuNp6w-OqjIq1JSYyLNcUt97E2EMUNuZEEQ0tuNMQwFKU7CEpiXr3B8VS85F1bB3HcRi1wcGuq7g_FA4VNmKdKrsw_Ys7A2Lr_bpdmOLOENzw7D_b0IY-pmVPkHx1tcbNtYO4UEiwVNo4IEqG7heiwtSlY0G3pbKYpYnjpuRogrjlt1Je8Aomhk3wnt8NNn_8wxHUqudCcEOT40Z9RMnqKag4XWk6WgLwEadzDOHsc',
+            image_url: 'https://images.unsplash.com/photo-1567234669003-dce7a7a88821?w=400',
             description: 'خبز البريوش الطازج والمحمص يقدم بلمسة من العسل العضوي والتوت',
             sort_order: 9,
+            available: true
+        },
+        {
+            id: 10,
+            name: 'متة خضراء سورية كلاسيك',
+            price: 15,
+            category_id: 1,
+            image_url: 'https://images.unsplash.com/photo-1597481499750-3e6b22637e12?w=400',
+            description: 'متة كلاسيكية تقدم ساخنة مع اختيارك من الهيل أو الأعشاب العطرية والسكر حسب الرغبة',
+            sort_order: 10,
+            available: true
+        },
+        {
+            id: 11,
+            name: 'قهوة تركية بالهيل',
+            price: 12,
+            category_id: 1,
+            image_url: 'https://images.unsplash.com/photo-1576092768241-dec231879fc3?w=400',
+            description: 'قهوة تركية تقليدية محضرة برغوة غنية مع الهيل المطحون',
+            sort_order: 11,
+            available: true
+        },
+        {
+            id: 12,
+            name: 'شاي إنجليزي فاخر بالنعناع',
+            price: 10,
+            category_id: 1,
+            image_url: 'https://images.unsplash.com/photo-1576092768241-dec231879fc3?w=400',
+            description: 'شاي أسود منتقى بعناية يقدم مع النعناع الطازج أو الليمون',
+            sort_order: 12,
+            available: true
+        },
+        {
+            id: 13,
+            name: 'موهيتو فواكه استوائية منعش',
+            price: 22,
+            category_id: 2,
+            image_url: 'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=400',
+            description: 'مشروب موهيتو منعش مع قطع الليمون، النعناع الطازج، الثلج ونكهة الفواكه الاستوائية',
+            sort_order: 13,
+            available: true
+        },
+        {
+            id: 14,
+            name: 'ميلك شيك شوكولاتة بلجيكية',
+            price: 25,
+            category_id: 2,
+            image_url: 'https://images.unsplash.com/photo-1579954115545-a95591f28bfc?w=400',
+            description: 'ميلك شيك كريمي غني بنكهة الشوكولاتة البلجيكية الفاخرة والآيس كريم',
+            sort_order: 14,
+            available: true
+        },
+        {
+            id: 15,
+            name: 'عصير رمان طازج طبيعي',
+            price: 18,
+            category_id: 3,
+            image_url: 'https://images.unsplash.com/photo-1613478223719-2ab802602423?w=400',
+            description: 'عصير رمان طبيعي طازج معصور على البارد ومليء بمضادات الأكسدة',
+            sort_order: 15,
+            available: true
+        },
+        {
+            id: 16,
+            name: 'عصير ليمون بالنعناع مثلج',
+            price: 15,
+            category_id: 3,
+            image_url: 'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=400',
+            description: 'عصير ليمون طازج ومخفوق مع أوراق النعناع الخضراء والثلج المجروش',
+            sort_order: 16,
+            available: true
+        },
+        {
+            id: 17,
+            name: 'برغر لحم بالجبنة كلاسيك',
+            price: 38,
+            category_id: 5,
+            image_url: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400',
+            description: 'شريحة لحم مشوي على اللهب مع جبن شيدر ذائب، خس، طماطم، وصلصتنا الخاصة في خبز البريوش',
+            sort_order: 17,
+            available: true
+        },
+        {
+            id: 18,
+            name: 'بيتزا مارغريتا كلاسيكية نابولية',
+            price: 35,
+            category_id: 5,
+            image_url: 'https://images.unsplash.com/photo-1604382354936-07c5d9983bd3?w=400',
+            description: 'عجينة نابولية رقيقة مغطاة بصلصة الطماطم الغنية، جبن الموزاريلا الفاخر وريحان طازج',
+            sort_order: 18,
+            available: true
+        },
+        {
+            id: 19,
+            name: 'كلوب ساندويش غاردن المشكل',
+            price: 32,
+            category_id: 5,
+            image_url: 'https://images.unsplash.com/photo-1567234669003-dce7a7a88821?w=400',
+            description: 'طبقات من شرائح الديك الرومي المدخن، البيض، الجبن، الخس والطماطم مع المايونيز في توست محمص',
+            sort_order: 19,
+            available: true
+        },
+        {
+            id: 20,
+            name: 'سلطة غاردن الخضراء الطازجة',
+            price: 24,
+            category_id: 5,
+            image_url: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=400',
+            description: 'مزيج منعش من الخضروات الورقية، الطماطم الكرزية، الخيار، مع تتبيلة زيت الزيتون والليمون',
+            sort_order: 20,
+            available: true
+        },
+        {
+            id: 21,
+            name: 'أرجيلة تفاحتين فاخر كلاسيك',
+            price: 30,
+            category_id: 6,
+            image_url: 'https://images.unsplash.com/photo-1527018601619-a508a2be00cd?w=400',
+            description: 'أرجيلة بنكهة التفاحتين الكلاسيكية الممتازة والمعتقة بخلطة غاردن الخاصة',
+            sort_order: 21,
+            available: true
+        },
+        {
+            id: 22,
+            name: 'أرجيلة ليمون ونعناع منعش',
+            price: 30,
+            category_id: 6,
+            image_url: 'https://images.unsplash.com/photo-1527018601619-a508a2be00cd?w=400',
+            description: 'أرجيلة بنكهة الليمون والنعناع المنعشة، مثالية للأجواء الصيفية',
+            sort_order: 22,
+            available: true
+        },
+        {
+            id: 23,
+            name: 'أرجيلة علكة ونعناع بارد',
+            price: 30,
+            category_id: 6,
+            image_url: 'https://images.unsplash.com/photo-1527018601619-a508a2be00cd?w=400',
+            description: 'أرجيلة بنكهة العلكة الحلوة مع لمسة باردة من النعناع',
+            sort_order: 23,
             available: true
         }
     ],
@@ -558,11 +700,34 @@ class DataService {
         });
     }
 
-    // Reset everything back to original Excel files (clearing local modifications)
+    // Reset everything back to default seed data (clearing local modifications and Firestore)
     async resetToDefault() {
         localStorage.removeItem(STORAGE_KEYS.PRODUCTS);
         localStorage.removeItem(STORAGE_KEYS.CATEGORIES);
         localStorage.removeItem(STORAGE_KEYS.SETTINGS);
+        
+        if (this.useFirebase && this.db) {
+            try {
+                console.log('Resetting Firebase Firestore database to default...');
+                
+                // Delete all categories in Firebase
+                const catSnapshot = await this.db.collection('categories').get();
+                const catPromises = catSnapshot.docs.map(doc => doc.ref.delete());
+                await Promise.all(catPromises);
+                
+                // Delete all products in Firebase
+                const prodSnapshot = await this.db.collection('products').get();
+                const prodPromises = prodSnapshot.docs.map(doc => doc.ref.delete());
+                await Promise.all(prodPromises);
+                
+                // Delete settings
+                await this.db.collection('settings').doc('general').delete();
+                console.log('Firebase database wiped successfully. Will re-seed during initialization.');
+            } catch (err) {
+                console.error('Error clearing Firestore on reset:', err);
+            }
+        }
+        
         this.initialized = false;
         await this.init();
     }
