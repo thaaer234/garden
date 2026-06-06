@@ -27,7 +27,7 @@ const FALLBACK_DATA = {
             name: 'فلات وايت كلاسيك',
             price: 22,
             category_id: 1,
-            image_url: 'https://images.unsplash.com/photo-1577968897966-3d4325b36b61?w=500',
+            image_url: 'https://images.pexels.com/photos/312418/pexels-photo-312418.jpeg?auto=compress&cs=tinysrgb&w=500',
             description: 'حبوب مختصة محمصة بعناية مع حليب مبخر غني',
             sort_order: 1,
             available: true
@@ -37,7 +37,7 @@ const FALLBACK_DATA = {
             name: 'آيس لاتيه',
             price: 18,
             category_id: 2,
-            image_url: 'https://images.unsplash.com/photo-1517701604599-bb29b565090c?w=500',
+            image_url: 'https://images.pexels.com/photos/5061245/pexels-photo-5061245.jpeg?auto=compress&cs=tinysrgb&w=500',
             description: 'حبوب بن مختارة بعناية مع حليب بارد وثلج',
             sort_order: 2,
             available: true
@@ -47,7 +47,7 @@ const FALLBACK_DATA = {
             name: 'كيكة العسل الروسية',
             price: 25,
             category_id: 4,
-            image_url: 'https://images.unsplash.com/photo-1587314168485-3236d6710814?w=500',
+            image_url: 'https://images.pexels.com/photos/2067396/pexels-photo-2067396.jpeg?auto=compress&cs=tinysrgb&w=500',
             description: 'كيكة العسل الروسية الهشة بطبقات الكريمة الغنية',
             sort_order: 3,
             available: true
@@ -57,7 +57,7 @@ const FALLBACK_DATA = {
             name: 'عصير برتقال طازج',
             price: 15,
             category_id: 3,
-            image_url: 'https://images.unsplash.com/photo-1613478223719-2ab802602423?w=500',
+            image_url: 'https://images.pexels.com/photos/1337825/pexels-photo-1337825.jpeg?auto=compress&cs=tinysrgb&w=500',
             description: 'عصير برتقال طازج طبيعي 100% معصور يومياً',
             sort_order: 4,
             available: true
@@ -67,7 +67,7 @@ const FALLBACK_DATA = {
             name: 'V60 كولومبي',
             price: 28,
             category_id: 1,
-            image_url: 'https://images.unsplash.com/photo-1541167760496-1628856ab772?w=500',
+            image_url: 'https://images.pexels.com/photos/6157053/pexels-photo-6157053.jpeg?auto=compress&cs=tinysrgb&w=500',
             description: 'قهوة مقطرة كولومبية فاخرة بنكهات حمضية متوازنة',
             sort_order: 5,
             available: true
@@ -77,7 +77,7 @@ const FALLBACK_DATA = {
             name: 'كورتادو كلاسيك',
             price: 18,
             category_id: 1,
-            image_url: 'https://images.unsplash.com/photo-1534778101976-62847782c213?w=500',
+            image_url: 'https://images.pexels.com/photos/4109110/pexels-photo-4109110.jpeg?auto=compress&cs=tinysrgb&w=500',
             description: 'قهوة مركزة مع حليب مبخر غني',
             sort_order: 6,
             available: true
@@ -87,7 +87,7 @@ const FALLBACK_DATA = {
             name: 'كيكة الفستق والورد',
             price: 32,
             category_id: 4,
-            image_url: 'https://images.unsplash.com/photo-1606890737304-57a1ca8a5b62?w=500',
+            image_url: 'https://images.pexels.com/photos/10836977/pexels-photo-10836977.jpeg?auto=compress&cs=tinysrgb&w=500',
             description: 'طبقات من كيكة الفستق مغطاة بكريمة الورد الطبيعي',
             sort_order: 7,
             available: true
@@ -97,7 +97,7 @@ const FALLBACK_DATA = {
             name: 'ماتشا لاتيه عضوي',
             price: 24,
             category_id: 2,
-            image_url: 'https://images.unsplash.com/photo-1536256263959-770b48d82b0a?w=500',
+            image_url: 'https://images.pexels.com/photos/5946607/pexels-photo-5946607.jpeg?auto=compress&cs=tinysrgb&w=500',
             description: 'شاي الماتشا الياباني العضوي الفاخر المخفوق مع الحليب البارد',
             sort_order: 8,
             available: true
@@ -107,7 +107,7 @@ const FALLBACK_DATA = {
             name: 'فرنش توست بالعسل والتوت',
             price: 45,
             category_id: 4,
-            image_url: 'https://images.unsplash.com/photo-1484723091739-30a097e8f929?w=500',
+            image_url: 'https://images.pexels.com/photos/704569/pexels-photo-704569.jpeg?auto=compress&cs=tinysrgb&w=500',
             description: 'خبز البريوش الطازج والمحمص يقدم بلمسة من العسل العضوي والتوت',
             sort_order: 9,
             available: true
@@ -117,7 +117,7 @@ const FALLBACK_DATA = {
             name: 'متة أرجنتينية فاخرة',
             price: 15,
             category_id: 1,
-            image_url: 'https://images.unsplash.com/photo-1597481499750-3e6b22637e12?w=500',
+            image_url: 'https://images.pexels.com/photos/5945848/pexels-photo-5945848.jpeg?auto=compress&cs=tinysrgb&w=500',
             description: 'متة أرجنتينية تقليدية تقدم بالقرعة والمصاصة الخاصة مع اختيارك من الأعشاب الطازجة والسكر',
             sort_order: 10,
             available: true
@@ -127,7 +127,7 @@ const FALLBACK_DATA = {
             name: 'قهوة تركية بالهيل',
             price: 12,
             category_id: 1,
-            image_url: 'https://images.unsplash.com/photo-1563889362352-b0492c225f62?w=500',
+            image_url: 'https://images.pexels.com/photos/685527/pexels-photo-685527.jpeg?auto=compress&cs=tinysrgb&w=500',
             description: 'قهوة تركية تقليدية محضرة برغوة غنية مع الهيل المطحون',
             sort_order: 11,
             available: true
@@ -137,7 +137,7 @@ const FALLBACK_DATA = {
             name: 'شاي إنجليزي فاخر بالنعناع',
             price: 10,
             category_id: 1,
-            image_url: 'https://images.unsplash.com/photo-1576092768241-dec231879fc3?w=500',
+            image_url: 'https://images.pexels.com/photos/1417945/pexels-photo-1417945.jpeg?auto=compress&cs=tinysrgb&w=500',
             description: 'شاي أسود منتقى بعناية يقدم مع النعناع الطازج أو الليمون',
             sort_order: 12,
             available: true
@@ -147,7 +147,7 @@ const FALLBACK_DATA = {
             name: 'موهيتو فواكه استوائية منعش',
             price: 22,
             category_id: 2,
-            image_url: 'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=500',
+            image_url: 'https://images.pexels.com/photos/40594/pexels-photo-40594.jpeg?auto=compress&cs=tinysrgb&w=500',
             description: 'مشروب موهيتو منعش مع قطع الليمون، النعناع الطازج، الثلج ونكهة الفواكه الاستوائية',
             sort_order: 13,
             available: true
@@ -157,7 +157,7 @@ const FALLBACK_DATA = {
             name: 'ميلك شيك شوكولاتة بلجيكية',
             price: 25,
             category_id: 2,
-            image_url: 'https://images.unsplash.com/photo-1579954115545-a95591f28bfc?w=500',
+            image_url: 'https://images.pexels.com/photos/3727250/pexels-photo-3727250.jpeg?auto=compress&cs=tinysrgb&w=500',
             description: 'ميلك شيك كريمي غني بنكهة الشوكولاتة البلجيكية الفاخرة والآيس كريم',
             sort_order: 14,
             available: true
@@ -167,7 +167,7 @@ const FALLBACK_DATA = {
             name: 'عصير رمان طازج طبيعي',
             price: 18,
             category_id: 3,
-            image_url: 'https://images.unsplash.com/photo-1595981267035-7b04ca84a82d?w=500',
+            image_url: 'https://images.pexels.com/photos/8490382/pexels-photo-8490382.jpeg?auto=compress&cs=tinysrgb&w=500',
             description: 'عصير رمان طبيعي طازج ومليء بمضادات الأكسدة',
             sort_order: 15,
             available: true
@@ -177,7 +177,7 @@ const FALLBACK_DATA = {
             name: 'عصير ليمون بالنعناع مثلج',
             price: 15,
             category_id: 3,
-            image_url: 'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=500',
+            image_url: 'https://images.pexels.com/photos/338713/pexels-photo-338713.jpeg?auto=compress&cs=tinysrgb&w=500',
             description: 'عصير ليمون طازج ومخفوق مع أوراق النعناع الخضراء والثلج المجروش',
             sort_order: 16,
             available: true
@@ -187,7 +187,7 @@ const FALLBACK_DATA = {
             name: 'مشاوي غاردن المشكلة',
             price: 65,
             category_id: 5,
-            image_url: 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=500',
+            image_url: 'https://images.pexels.com/photos/2233729/pexels-photo-2233729.jpeg?auto=compress&cs=tinysrgb&w=500',
             description: 'تشكيلة فاخرة من شيش طاووق، كباب لحم، وأوصال لحم مشوية على الفحم مع مقبلات وسرفيس',
             sort_order: 17,
             available: true
@@ -197,7 +197,7 @@ const FALLBACK_DATA = {
             name: 'برغر لحم غاردن فاخر',
             price: 38,
             category_id: 5,
-            image_url: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=500',
+            image_url: 'https://images.pexels.com/photos/1639557/pexels-photo-1639557.jpeg?auto=compress&cs=tinysrgb&w=500',
             description: 'شريحة لحم مشوي على اللهب مع جبن شيدر ذائب، خس، طماطم، وصلصتنا الخاصة في خبز البريوش',
             sort_order: 18,
             available: true
@@ -207,7 +207,7 @@ const FALLBACK_DATA = {
             name: 'فيتوتشيني ألفريدو بالدجاج',
             price: 42,
             category_id: 5,
-            image_url: 'https://images.unsplash.com/photo-1645112411341-6c4fd023714a?w=500',
+            image_url: 'https://images.pexels.com/photos/1437267/pexels-photo-1437267.jpeg?auto=compress&cs=tinysrgb&w=500',
             description: 'باستا فيتوتشيني بصلصة الكريمة الغنية والفطر، مغطاة بشرائح الدجاج المشوي وجبن البارميزان',
             sort_order: 19,
             available: true
@@ -217,7 +217,7 @@ const FALLBACK_DATA = {
             name: 'وجبة كريسبي دجاج مقرمش',
             price: 45,
             category_id: 5,
-            image_url: 'https://images.unsplash.com/photo-1562967914-608f82629710?w=500',
+            image_url: 'https://images.pexels.com/photos/2232433/pexels-photo-2232433.jpeg?auto=compress&cs=tinysrgb&w=500',
             description: 'قطع دجاج كريسبي مقرمشة تقدم مع بطاطا مقلية، سلطة كولسلو، وثومية غاردن الخاصة',
             sort_order: 20,
             available: true
@@ -227,7 +227,7 @@ const FALLBACK_DATA = {
             name: 'نرجيلة تفاحتين فاخر كلاسيك',
             price: 30,
             category_id: 7,
-            image_url: 'https://images.unsplash.com/photo-1605335198270-e69f8d5b1285?w=500',
+            image_url: 'https://images.pexels.com/photos/11091565/pexels-photo-11091565.jpeg?auto=compress&cs=tinysrgb&w=500',
             description: 'أرجيلة بنكهة التفاحتين الكلاسيكية الممتازة والمعتقة بخلطة غاردن الخاصة',
             sort_order: 21,
             available: true
@@ -237,7 +237,7 @@ const FALLBACK_DATA = {
             name: 'نرجيلة ليمون ونعناع منعش',
             price: 30,
             category_id: 7,
-            image_url: 'https://images.unsplash.com/photo-1518310383802-640c2de311b2?w=500',
+            image_url: 'https://images.pexels.com/photos/4038868/pexels-photo-4038868.jpeg?auto=compress&cs=tinysrgb&w=500',
             description: 'أرجيلة بنكهة الليمون والنعناع المنعشة، مثالية للأجواء الصيفية',
             sort_order: 22,
             available: true
@@ -247,7 +247,7 @@ const FALLBACK_DATA = {
             name: 'نرجيلة علكة ونعناع بارد',
             price: 30,
             category_id: 7,
-            image_url: 'https://images.unsplash.com/photo-1605335198270-e69f8d5b1285?w=500',
+            image_url: 'https://images.pexels.com/photos/11091565/pexels-photo-11091565.jpeg?auto=compress&cs=tinysrgb&w=500',
             description: 'أرجيلة بنكهة العلكة الحلوة مع لمسة باردة من النعناع',
             sort_order: 23,
             available: true
@@ -257,7 +257,7 @@ const FALLBACK_DATA = {
             name: 'فوندان شوكولاتة دافئ',
             price: 28,
             category_id: 4,
-            image_url: 'https://images.unsplash.com/photo-1606313564200-e75d5e30476c?w=500',
+            image_url: 'https://images.pexels.com/photos/4110007/pexels-photo-4110007.jpeg?auto=compress&cs=tinysrgb&w=500',
             description: 'كيكة شوكولاتة دافئة محشوة بالشوكولاتة السائلة الذائبة تقدم مع آيس كريم فانيليا',
             sort_order: 24,
             available: true
@@ -267,7 +267,7 @@ const FALLBACK_DATA = {
             name: 'بطاطا مقلية مقرمشة متبلة',
             price: 15,
             category_id: 6,
-            image_url: 'https://images.unsplash.com/photo-1576107232684-1279f390859f?w=500',
+            image_url: 'https://images.pexels.com/photos/1893555/pexels-photo-1893555.jpeg?auto=compress&cs=tinysrgb&w=500',
             description: 'أصابع بطاطا مقلية ذهبية ومقرمشة ومتبلة ببهارات غاردن اللذيذة',
             sort_order: 25,
             available: true
@@ -277,7 +277,7 @@ const FALLBACK_DATA = {
             name: 'أصابع الموزاريلا الذائبة مقرمشة',
             price: 22,
             category_id: 6,
-            image_url: 'https://images.unsplash.com/photo-1531749668029-2db88e4b76c2?w=500',
+            image_url: 'https://images.pexels.com/photos/10905930/pexels-photo-10905930.jpeg?auto=compress&cs=tinysrgb&w=500',
             description: 'أصابع جبنة الموزاريلا المغطاة بالبقسماط المقلي والمقرمش تقدم مع صلصة المارينارا',
             sort_order: 26,
             available: true
@@ -287,7 +287,7 @@ const FALLBACK_DATA = {
             name: 'حمص بيروتي باللحمة والصنوبر',
             price: 25,
             category_id: 6,
-            image_url: 'https://images.unsplash.com/photo-1547058881-aa0edd92aab3?w=500',
+            image_url: 'https://images.pexels.com/photos/4198162/pexels-photo-4198162.jpeg?auto=compress&cs=tinysrgb&w=500',
             description: 'حمص كريمي تقليدي مغطى بقطع اللحم المشوي والصنوبر المحمص مع زيت الزيتون',
             sort_order: 27,
             available: true
@@ -297,7 +297,7 @@ const FALLBACK_DATA = {
             name: 'كبة مشوية فاخرة باللحم والدهن',
             price: 28,
             category_id: 6,
-            image_url: 'https://images.unsplash.com/photo-1608897013039-887f21d8c804?w=500',
+            image_url: 'https://images.pexels.com/photos/12419159/pexels-photo-12419159.jpeg?auto=compress&cs=tinysrgb&w=500',
             description: 'أقراص كبة مشوية على الفحم محشوة باللحم المفروم والمكسرات والدهن البلدي',
             sort_order: 28,
             available: true
