@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>استيراد وتغذية قاعدة البيانات | أدمن غاردن</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Almarai:wght@400;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --color-primary: #061b0e;
+            --color-on-primary: #ffffff;
+            --color-background: #f4f6f4;
+            --color-surface: #ffffff;
+            --color-on-surface: #1c1d1c;
+            --color-success: #1b5e20;
+            --radius-lg: 16px;
+            --shadow-md: 0 4px 20px rgba(0,0,0,0.08);
+        }
+
+        body {
+            font-family: 'Almarai', sans-serif;
+            background-color: var(--color-background);
+            color: var(--color-on-surface);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .seed-card {
+            background-color: var(--color-surface);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            padding: 40px;
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+            border-top: 5px solid var(--color-primary);
+        }
+
+        .icon-circle {
+            width: 80px;
+            height: 80px;
+            background-color: rgba(6, 27, 14, 0.08);
+            color: var(--color-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 24px auto;
+        }
+
+        .icon-circle span {
+            font-size: 40px;
+        }
+
+        h2 {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--color-primary);
+            margin: 0 0 12px 0;
+        }
+
+        p {
+            font-size: 14px;
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 32px;
+        }
+
+        .btn-seed {
+            background-color: var(--color-primary);
+            color: var(--color-on-primary);
+            border: none;
+            padding: 16px 32px;
+            font-size: 16px;
+            font-weight: 700;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.2s ease;
+        }
+
+        .btn-seed:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        .status-box {
+            margin-top: 24px;
+            padding: 16px;
+            border-radius: 8px;
+            font-size: 13px;
+            display: none;
+            text-align: right;
+            line-height: 1.6;
+        }
+
+        .status-box.success {
+            background-color: #e8f5e9;
+            color: var(--color-success);
+            border: 1px solid #c8e6c9;
+            display: block;
+        }
+
+        .status-box.error {
+            background-color: #ffebee;
+            color: #c62828;
+            border: 1px solid #ffcdd2;
+            display: block;
+        }
+
+        .status-box.info {
+            background-color: #e3f2fd;
+            color: #1565c0;
+            border: 1px solid #bbdefb;
+            display: block;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 24px;
+            color: var(--color-primary);
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="seed-card">
+        <div class="icon-circle">
+            <span class="material-symbols-outlined">database</span>
+        </div>
+        <h2>استيراد وتغذية قاعدة البيانات السحابية</h2>
+        <p>
+            سيقوم هذا الملف بتهيئة قاعدة بيانات Firebase Firestore الخاصة بك ورفع القائمة الافتراضية كاملة (تشمل المأكولات، المشروبات الباردة والساخنة، المتة، والأراجيل) بضغطة زر واحدة.
+        </p>
+
+        <button class="btn-seed" id="seed-btn">
+            <span class="material-symbols-outlined">cloud_upload</span>
+            <span>بدء الاستيراد السحابي الآن</span>
+        </button>
+
+        <div class="status-box" id="status-box"></div>
+
+        <a href="dashboard.html" class="back-link">العودة للوحة التحكم</a>
+    </div>
+
+    <!-- Firebase SDK (Compat Version) -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+    <!-- Firebase Configuration -->
+    <script src="../services/firebase-config.js"></script>
+    <!-- Custom Data Service Layer -->
+    <script src="../services/dataService.js"></script>
+
+    <script>
+        document.getElementById('seed-btn').addEventListener('click', async () => {
+            const btn = document.getElementById('seed-btn');
+            const status = document.getElementById('status-box');
+            
+            btn.disabled = true;
+            btn.innerHTML = '<span class="material-symbols-outlined">sync</span> جاري الرفع والتأسيس...';
+            
+            status.className = 'status-box info';
+            status.innerHTML = 'جاري الاتصال بـ Firebase ومسح الجداول القديمة وإعادة البناء...';
+            
+            try {
+                // Initialize data service
+                await window.dataService.init();
+                
+                if (!window.dataService.useFirebase) {
+                    throw new Error("لم يتم تفعيل اتصال Firebase. يرجى التحقق من إدخال المفاتيح الصحيحة في ملف services/firebase-config.js");
+                }
+                
+                // Wipe and re-seed
+                await window.dataService.resetToDefault();
+                
+                status.className = 'status-box success';
+                status.innerHTML = '<strong>نجاح الاستيراد! 🎉</strong><br>تم تنظيف قاعدة البيانات وتغذيتها بـ 6 أقسام رئيسية و 23 منتجاً من المشروبات والمأكولات والأراجيل بنجاح.<br>يمكنك الآن الانتقال إلى القائمة أو لوحة التحكم لرؤية التغييرات.';
+                
+                btn.innerHTML = '<span class="material-symbols-outlined">done_all</span> تم الاستيراد بنجاح';
+            } catch (err) {
+                console.error(err);
+                status.className = 'status-box error';
+                status.innerHTML = '<strong>فشل الاستيراد! ❌</strong><br>' + err.message + '<br><br>تنبيه: تأكد من أن قواعد الحماية (Rules) في Firestore مهيأة لتسمح بالكتابة (write: if true) كما هو مشروح سابقاً.';
+                
+                btn.disabled = false;
+                btn.innerHTML = '<span class="material-symbols-outlined">cloud_upload</span> إعادة محاولة الاستيراد';
+            }
+        });
+    </script>
+</body>
+</html>
