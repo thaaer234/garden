@@ -274,12 +274,12 @@ main.menu-content {
 /* Categories Landing Grid (Page 1) */
 .categories-grid {
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 1fr);
     gap: var(--spacing-gutter);
 }
 
 .category-card {
-    height: 180px;
+    height: 120px;
     border-radius: var(--radius-lg);
     position: relative;
     overflow: hidden;
@@ -316,12 +316,12 @@ main.menu-content {
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
-    padding: 20px;
+    padding: 16px;
     color: white;
 }
 
 .category-card-title {
-    font-size: 22px;
+    font-size: 16px;
     font-weight: 700;
 }
 
@@ -776,7 +776,13 @@ main.menu-content {
         grid-template-columns: repeat(3, 1fr);
     }
     .categories-grid {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(3, 1fr);
+    }
+    .category-card {
+        height: 180px;
+    }
+    .category-card-title {
+        font-size: 22px;
     }
     .mobile-bottom-nav {
         display: none;
@@ -794,7 +800,7 @@ main.menu-content {
         grid-template-columns: repeat(4, 1fr);
     }
     .categories-grid {
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(4, 1fr);
     }
 }
 
